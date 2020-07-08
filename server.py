@@ -26,7 +26,11 @@ async def data_handler(request):
     if data is None:
         return json({"status": 403, "message": "expected json"})
 
-    token = tokens.get(data.get('via_instance'), '')
+    instance = data.get("via_instance")
+    if not instance or instance not in tokens:
+        return json({"status": 403, "message": "instance is not registered"})
+
+    token = tokens.get(instance, '')
     # the session might be saved in the database
     if not token:
         potential_session = await database.get_session(data.get('via_instance'))
@@ -37,7 +41,7 @@ async def data_handler(request):
     # `not token` to avoid `'' == ''`
     if not token or not (data.get("security_token", '') == token.token):
         # add custom 403 error code
-        return json({"status": 403, "message": "token unauthorized"})
+        return json({"status": 403, "message": "token unauthorized (bad token)"})
 
     # build into context
     result = Context.from_json(data)
@@ -129,17 +133,17 @@ async def worker_setup(request):
     broadcast_entity = data.get("broadcast")
     # For "No entity" value must be None
     if broadcast_entity == "":
-        return json({"status": 403, "message": "broadcast entity is invalid"})
+        return json({"status": 403, "message": "broadcast entity is invalid (for \'no entity\' value must be None)"})
     # Pull psychological room from the request
     psychological_room = data.get("psychological_room")
     # For "No entity" value must be None
     if psychological_room == "":
-        return json({"status": 403, "message": "psychological room is invalid"})
+        return json({"status": 403, "message": "psychological room is invalid (for \'no entity\' value must be None)"})
     # Pull doctor room from the request
     doctor_room = data.get("doctor_room")
     # For "No entity" value must be None
     if doctor_room == "":
-        return json({"status": 403, "message": "doctor room is invalid"})
+        return json({"status": 403, "message": "doctor room is invalid (for \'no entity\' value must be None)"})
 
     # Generate new token and name for the instance
     # @Important: 40 bytes token is > 50 characters long
