@@ -176,13 +176,39 @@ class BaseState(object):
 
     # Actual state method to be written for the state
     async def entry(self, context: Context, user: User, db):
+        """
+        The method handles each interaction when user enters your state
+
+        Args:
+        context (Context): language code of the user's country
+        user (User): user object from database corresponding to the user who sent message
+        db (Database): database wrapper object
+        """
         return OK
 
     # Actual state method to be written for the state
     async def process(self, context: Context, user: User, db):
+        """
+        The method handles each interaction with user (except first interaction)
+
+        Args:
+        context (Context): language code of the user's country
+        user (User): user object from database corresponding to the user who sent message
+        db (Database): database wrapper object
+        """
         return OK
 
-    def parse_button(self, raw_text: str, truncated=False) -> Button:
+    def parse_button(self, raw_text: str, truncated=False, truncation_size=20) -> Button:
+        """
+        Function compares input text to all available strings (of user's language) and if
+        finds matching - returns Button object, which has text and key attributes, where
+        text is raw_text and key is a key of matched string from strings.json
+
+        Args:
+        raw_text (str): just user's message
+        truncated (bool): option to look for not full matches (only first `n` characters). Defaults to False.
+        truncation_size (int): amount of items to match. Defaults to 20.
+        """
         btn = Button(raw_text)
         lang_obj = self.STRINGS.cache.get(self.__language)
         if lang_obj is not None:
@@ -193,7 +219,7 @@ class BaseState(object):
                         break
             else:
                 for key, value in lang_obj.items():
-                    if len(value) > 20 and value[:20] == raw_text[:20]:
+                    if len(value) > truncation_size and value[:truncation_size] == raw_text[:truncation_size]:
                         btn.set_key(key)
                         break
                     elif value == raw_text:
@@ -233,6 +259,15 @@ class BaseState(object):
     # @Important: because a) it's not good enough, b) it takes time to make
     # @Important: a call to the google cloud api
     async def translate(self, text: str, target: str) -> str:
+        """
+        Method is wrapper for translation_text from translation module.
+        Simply returns translated text for the target language.
+        Good usage example if translating text between users.
+
+        Args:
+        text (str): message to translate
+        target (str): target language (ISO 639-1 code)
+        """
         return await self.tr.translate_text(text, target)
 
     # Sugar
@@ -275,6 +310,15 @@ class BaseState(object):
 
     # @Important: `send` METHOD THAT ALLOWS TO SEND PAYLOAD TO THE USER
     def send(self, to_user: User, context: Context):
+        """
+        Method creates task that sends context['request'] to the
+        to_user User after executing your code inside state.
+
+        Args:
+        to_user (User): user object to send message to
+        context (Context): request context that is send to the user. The object is deep copied so it
+                           can't be changed further in code (reliable consistency for multiple requests)
+        """
         # @Important: [Explanation to the code below]:
         # @Important: maybe add some queue of coroutines and dispatch them all when handler return status (?)
         # @Important: or just dispatch them via asyncio.create_task so it will be more efficient (?)
@@ -304,4 +348,12 @@ class BaseState(object):
         return results
 
     def create_task(self, func, *args, **kwargs):
+        """
+        Method executes async function (with given args and kwargs) immediately after processing state.
+
+        Args:
+        func (Async Func): function to be executed
+        args (Any): args to be passed into the func
+        kwargs (Any): kwargs to be passed into the func
+        """
         self.execution_queue.append(ExecutionTask(func, args, kwargs))
