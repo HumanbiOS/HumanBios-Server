@@ -10,5 +10,14 @@ server.humanbiosbots.com {
         root * files
         file_server
     }
-
 }
+
+#webchat.humanbiosbots.com {
+#    handle /api/* {
+#        reverse_proxy humanbios-webchat:8030
+#    }
+#    handle {
+#        root * web_chat
+#        file_server
+#    }
+#}

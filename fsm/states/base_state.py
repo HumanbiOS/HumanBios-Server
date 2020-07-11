@@ -4,7 +4,6 @@ from settings import tokens, ROOT_PATH
 from server_logic import NLUWorker
 from translation import Translator
 from aiohttp import ClientSession
-from typing import List, Optional
 from db import User, Database
 from files import FILENAMES
 import aiofiles
@@ -47,6 +46,39 @@ class PromisesEncoder(json.JSONEncoder):
 
 
 class BaseState(object):
+    """
+    This class is a parent-class for all state handlers, it provides:
+        - interface to Google Translations API
+        - interface to our own phrases/responses
+        - automatically translates our strings to the language of the user
+        - automatically adds pictures to the chosen intents/conversation steps/questions
+        - interface to the database
+        - interface to the NLU (Natural Language Understanding unit - https://github.com/HumanbiOS/rasa)
+        - automatic requests queueing
+        - automatic database updates for the `User` object
+
+    Note 0:
+        In the text there are some special words:
+          $(name) - refers to the random meaningful (or not) string that came to your mind
+          $(root) - refers to the project directory
+    Note 1:
+        Server will pick up files and extract state classes from them, you don't need
+        to worry about "registering state", there is no hardcoded list
+        The important detail is that you **must** put file.py with the state handler
+        to the $(root)/fsm/states folder.
+    Note 2:
+        It's a better practise to put each state handler in its own file.
+        Naming Conventions:
+            - name of the python class - `$(name)State`
+              Example:
+              `    class MyBeautifulState:`
+              `    class BasicQuestionsState:`
+            - name of the file - *snake lower case* of $(name).
+              "state" might be omitted (filename matters only to avoid confusions, refer to note 1)
+              Example:
+              `my_beautiful_state.py`
+              `basic_questions.py`
+    """
     HEADERS = {
         "Content-Type": "application/json"
     }
@@ -108,10 +140,10 @@ class BaseState(object):
         # @Important: the call is actually needed
         if self.tasks:
             # @Important: collect all requests
-            _results = await self.collect()
+            _results = await self._collect()
         # @Important: Execute all queued jobs
         if self.execution_queue:
-            await self.execute_tasks()
+            await self._execute_tasks()
         return status
 
     async def wrapped_process(self, context: Context, user: User):
@@ -136,10 +168,10 @@ class BaseState(object):
         # @Important: the call is actually needed
         if self.tasks:
             # @Important: collect all requests
-            await self.collect()
+            await self._collect()
         # @Important: Execute all queued jobs
         if self.execution_queue:
-            await self.execute_tasks()
+            await self._execute_tasks()
         return status
 
     # Actual state method to be written for the state
@@ -206,7 +238,7 @@ class BaseState(object):
     # Sugar
 
     # @Important: command to actually send all collected requests from `process` or `entry`
-    async def collect(self):
+    async def _collect(self):
         results = list()
         async with ClientSession(json_serialize=lambda o: json.dumps(o, cls=PromisesEncoder)) as session:
             # @Important: Since asyncio.gather order is not preserved, we don't want to run them concurrently
@@ -265,7 +297,7 @@ class BaseState(object):
             pass  # logging.info(context['request']['message']['text'])
         self.tasks.append(SenderTask(to_user, copy.deepcopy(context.__dict__['request'])))
 
-    async def execute_tasks(self):
+    async def _execute_tasks(self):
         results = await asyncio.gather(
             *[exec_task.func(*exec_task.args, **exec_task.kwargs) for exec_task in self.execution_queue]
         )
