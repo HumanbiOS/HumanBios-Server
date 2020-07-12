@@ -363,3 +363,18 @@ class BaseState(object):
         kwargs (Any): kwargs to be passed into the func
         """
         self.execution_queue.append(ExecutionTask(func, args, kwargs))
+
+    def create_conversation(self, user1: User, user2: User):
+        user1['context']['conversation'] = {
+            "user_id": user2['user_id'],
+            "via_instance": user2['via_instance'],
+            "type": user2['type']
+        }
+        user2['context']['conversation'] = {
+            "user_id": user1['user_id'],
+            "via_instance": user1['via_instance'],
+            "type": user1['type']
+        }
+
+        user1['states'].append("ConversationState")
+        user2['states'].append("ConversationState")
