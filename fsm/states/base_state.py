@@ -6,7 +6,7 @@ from translation import Translator
 from aiohttp import ClientSession
 from db import User, Database
 from files import FILENAMES
-from typing import Union
+from typing import Union, Optional
 import aiofiles
 import asyncio
 import logging
@@ -364,7 +364,7 @@ class BaseState(object):
         """
         self.execution_queue.append(ExecutionTask(func, args, kwargs))
 
-    def create_conversation(self, user1: User, user2: User):
+    def create_conversation(self, user1: User, user2: User, context: Context, message: Optional[str] = None) -> None:
         user1['context']['conversation'] = {
             "user_id": user2['user_id'],
             "via_instance": user2['via_instance'],
@@ -375,6 +375,19 @@ class BaseState(object):
             "via_instance": user1['via_instance'],
             "type": user1['type']
         }
+
+        # Send message to them
+        if message or message is None:
+            if message is None:
+                message = "You've just started realtime conversation. Just start typing to talk to them!"
+
+            context['request']['user']['user_id'] = 1
+            context['request']['user']['first_name'] = "HumanBios"
+            context['request']['chat']['chat_id'] = user1['user_id']
+            context['request']['message']['text'] = message
+            self.send(user1, context)
+            context['request']['chat']['chat_id'] = user2['user_id']
+            self.send(user2, context)
 
         user1['states'].append("ConversationState")
         user2['states'].append("ConversationState")
