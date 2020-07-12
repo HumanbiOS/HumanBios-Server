@@ -6,6 +6,7 @@ from translation import Translator
 from aiohttp import ClientSession
 from db import User, Database
 from files import FILENAMES
+from typing import Union
 import aiofiles
 import asyncio
 import logging
@@ -289,7 +290,7 @@ class BaseState(object):
     # @Important: Real send method, takes SenderTask as argument
     async def _send(self, task: SenderTask, session: ClientSession):
         # Takes instance data holder object with the name from the tokens storage, extracts url
-        url = tokens[task.user['via_instance']].url
+        url = tokens[task.service].url
         # Unpack context, set headers (content-type: json)
         async with session.post(url,
                                 json=task.context,
@@ -306,16 +307,16 @@ class BaseState(object):
                 #    logging.info(f"Sending task status: No result")
             # Otherwise - log error
             else:
-                logging.error(f"[ERROR]: Sending task (user={task.user}, context={task.context}) status {await resp.text()}")
+                logging.error(f"[ERROR]: Sending task (service={task.service}, context={task.context}) status {await resp.text()}")
 
     # @Important: `send` METHOD THAT ALLOWS TO SEND PAYLOAD TO THE USER
-    def send(self, to_user: User, context: Context):
+    def send(self, to_entity: Union[User, str], context: Context):
         """
         Method creates task that sends context['request'] to the
         to_user User after executing your code inside state.
 
         Args:
-        to_user (User): user object to send message to
+        to_entity (User, str): user object to send message to, or just service name
         context (Context): request context that is send to the user. The object is deep copied so it
                            can't be changed further in code (reliable consistency for multiple requests)
         """
@@ -325,6 +326,11 @@ class BaseState(object):
         # @Important: reasoning:
         # @Important:   simple way:   server -> request1 -> status1 -> request2 -> status2 -> request3 -> status3
         # @Important:     this way:   server -> gather(request1, request2, request3) -> log(status1, status2, status3)
+
+        if isinstance(to_entity, str):
+            service = to_entity
+        else:
+            service = to_entity['via_instance']
 
         # @Important: The easy way to add files from files.json
         if isinstance(context['request']['message']['text'], TextPromise):
@@ -339,7 +345,7 @@ class BaseState(object):
         else:
             # [DEBUG]
             pass  # logging.info(context['request']['message']['text'])
-        self.tasks.append(SenderTask(to_user, copy.deepcopy(context.__dict__['request'])))
+        self.tasks.append(SenderTask(service, copy.deepcopy(context.__dict__['request'])))
 
     async def _execute_tasks(self):
         results = await asyncio.gather(
