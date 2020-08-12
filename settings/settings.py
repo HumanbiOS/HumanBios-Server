@@ -2,6 +2,7 @@ import logging
 import pathlib
 import dotenv
 import os
+import ast
 
 dotenv.load_dotenv('.env')
 
@@ -21,7 +22,7 @@ RASA_URL = os.environ['RASA_URL']
 
 N_CORES = int(os.environ['N_CORES'])
 try:
-    DEBUG = bool(eval(os.environ['DEBUG']))
-except ValueError as e:
+    DEBUG = bool(ast.literal_eval(os.environ['DEBUG']))
+except (ValueError, SyntaxError) as e:
     DEBUG = None
     logging.exception(f"Expected bool, got {os.environ['DEBUG']}")
