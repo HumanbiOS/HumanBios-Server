@@ -11,6 +11,7 @@ services:
     volumes:
     - ./Caddyfile:/etc/caddy/Caddyfile
     - ../../files:/files
+    - ../../static:/static
 
 networks:
   default:

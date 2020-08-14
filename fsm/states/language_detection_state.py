@@ -37,6 +37,14 @@ class LanguageDetectionState(base_state.BaseState):
 
         # Send language message
         context['request']['message']['text'] = self.strings["choose_lang"]
+        # Add confrimation button to skip
+        if context['request']['user']['lang_code']:
+            user['context']['lang_code'] = context['request']['user']['lang_code']
+            context['request']['has_buttons'] = True
+            context['request']['buttons_type'] = "text"
+            context['request']['buttons'] = [
+                {"text": self.strings['skip_lang'].format(context['request']['user']['lang_code'])}
+            ]
         # Set user context as 'Was Asked Language Question'
         user['context']['language_state'] = 1
         # Don't forget to add task
@@ -55,6 +63,18 @@ class LanguageDetectionState(base_state.BaseState):
             return base_state.GO_TO_STATE("ENDState")
 
         if user['context'].get('language_state') == 1:
+            # Autodetection button
+            if self.parse_fstring(raw_answer, self.strings['skip_lang']):
+                # Use current lang, if none -> use from cache
+                #    (May make sense if some front end sends lang data only once on first request)
+                if context['request']['user']['lang_code']:
+                    lang = context['request']['user']['lang_code']
+                else:
+                    lang = user['context']['lang_code']
+                
+                user['language'] = context['request']['user']['lang_code']
+                self.set_language(context['request']['user']['lang_code'])
+                return base_state.GO_TO_STATE("QAState")
             # Run language detection
             language_obj = await self.nlu.detect_language(raw_answer)
             # Couldn't detect any language
@@ -105,7 +125,7 @@ class LanguageDetectionState(base_state.BaseState):
 
         elif user['context'].get('language_state') == 2:
             if button == 'continue':
-                return base_state.GO_TO_STATE("BasicQuestionState")
+                return base_state.GO_TO_STATE("QAState")
             elif button == 'try_again':
                 failed = False
                 user['language'] = 'en'
@@ -115,15 +135,15 @@ class LanguageDetectionState(base_state.BaseState):
             lang = user['context']['language_obj'].get(raw_answer)
             if lang is not None:
                 user['language'] = lang
-                return base_state.GO_TO_STATE("BasicQuestionState")
+                return base_state.GO_TO_STATE("QAState")
             elif button == 'try_again':
                 failed = False
 
         elif user['context'].get('language_state') == 4:
             if button == 'yes':
                 # [DEBUG]
-                logging.info("Returing to the Basic Question State.")
-                return base_state.GO_TO_STATE("BasicQuestionState")
+                # logging.info("Returing to the Basic Question State.")
+                return base_state.GO_TO_STATE("QAState")
             elif button == 'no':
                 failed = False
 

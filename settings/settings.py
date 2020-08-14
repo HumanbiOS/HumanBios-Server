@@ -19,6 +19,7 @@ AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
 RASA_URL = os.environ['RASA_URL']
+BOTSOCIETY_API_KEY = os.environ['BOTSOCIETY_API_KEY']
 
 N_CORES = int(os.environ['N_CORES'])
 try:

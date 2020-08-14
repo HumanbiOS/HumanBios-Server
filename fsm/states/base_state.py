@@ -5,7 +5,6 @@ from server_logic import NLUWorker
 from translation import Translator
 from aiohttp import ClientSession
 from db import User, Database
-from files import FILENAMES
 from typing import Union, Optional
 import aiofiles
 import asyncio
@@ -65,7 +64,7 @@ class BaseState(object):
     Note 1:
         Server will pick up files and extract state classes from them, you don't need
         to worry about "registering state", there is no hardcoded list
-        The important detail is that you **must** put file.py with the state handler
+        The important detail is that you **must** put state.py with the state handler
         to the $(root)/fsm/states folder.
     Note 2:
         It's a better practise to put each state handler in its own file.
@@ -90,7 +89,9 @@ class BaseState(object):
     db = Database()
     nlu = NLUWorker(tr)
     STRINGS = Strings(tr, db)
-    files = FILENAMES
+    
+    bots_data = None
+
     # Media path and folder
     media_folder = "media"
     media_path = os.path.join(ROOT_PATH, media_folder)
@@ -199,7 +200,7 @@ class BaseState(object):
         """
         return OK
 
-    def parse_button(self, raw_text: str, truncated=False, truncation_size=20) -> Button:
+    def parse_button(self, raw_text: str, truncated=False, truncation_size=20, verify=None) -> Button:
         """
         Function compares input text to all available strings (of user's language) and if
         finds matching - returns Button object, which has text and key attributes, where
@@ -208,25 +209,46 @@ class BaseState(object):
         Args:
         raw_text (str): just user's message
         truncated (bool): option to look for not full matches (only first `n` characters). Defaults to False.
-        truncation_size (int): amount of items to match. Defaults to 20.
+        truncation_size (int): amount of sequential characters to match. Defaults to 20.
         """
+        # @Question: is it worth it?
+        #    Optimise search if `verify` is not None, makes following loop O(n1) instead of O(n) where n1 is length of the verify, 
+        #    which is 100% definitely in range 1-10
         btn = Button(raw_text)
         lang_obj = self.STRINGS.cache.get(self.__language)
-        if lang_obj is not None:
-            if not truncated:
-                for key, value in lang_obj.items():
-                    if value == raw_text:
-                        btn.set_key(key)
-                        break
-            else:
-                for key, value in lang_obj.items():
-                    if len(value) > truncation_size and value[:truncation_size] == raw_text[:truncation_size]:
-                        btn.set_key(key)
-                        break
-                    elif value == raw_text:
-                        btn.set_key(key)
-                        break
+        # Make sure that certain language file exists
+        if lang_obj and verify:
+            lang_obj = [(key, lang_obj[key]) for key in verify]
+        elif lang_obj:
+            lang_obj = lang_obj.items()
+
+        for k, v in lang_obj:
+            if v == raw_text or (truncated and len(v) > truncation_size and v[:truncation_size] == raw_text[:truncation_size]):
+                # [DEBUG]
+                # logging.info(value)
+                btn.set_key(k)
+                break
+        # [DEBUG]
+        # logging.info("\n\n\n\n")
+        # logging.info(verify)
+        # logging.info(lang_obj)
+        # logging.info(btn)
         return btn
+
+    # Parse intent of single-formatted string, comparing everything but inserted 
+    #     Returns True           ->     intent matched
+    #     Returns None or False  ->     intent didn't match
+    def parse_fstring(self, raw_text: str, promise: TextPromise, item1: str = "{", item2: str = "}"):
+        if promise.value and isinstance(promise.value, str):
+            # Find where "{" or "}" should've been, then use it to go one char left or right, accordingly
+            i1 = promise.value.find(item1)
+            i2 = promise.value.find(item2)
+            if i1 != -1 and i2 != -1:
+                # Find from the end, so can use negative index
+                #    Can't just measure from the start, because there will be inserted text of random length
+                i2 = len(promise.value) - i2 
+                return raw_text[:i1] == promise.value[:i1] and raw_text[-i2 + 1:] == promise.value[-i2 + 1:]
+
 
     # @Important: 1) find better way with database
     # @Important: 2) What if we do it in non blocking asyncio.create_task (?)
@@ -293,9 +315,9 @@ class BaseState(object):
         url = tokens[task.service].url
         # Unpack context, set headers (content-type: json)
         async with session.post(url,
-                                json=task.context,
-                                headers=self.HEADERS
-                                ) as resp:
+                json=task.context,
+                headers=self.HEADERS
+            ) as resp:
             # If reached server - log response
             if resp.status == 200:
                 pass  # [DEBUG]
@@ -332,19 +354,6 @@ class BaseState(object):
         else:
             service = to_entity['via_instance']
 
-        # @Important: The easy way to add files from files.json
-        if isinstance(context['request']['message']['text'], TextPromise):
-            # Find according key for files from TextPromise
-            files = self.files.get(context['request']['message']['text'].key, list())
-            #logging.info(files)
-            context['request']['file'] = [{"payload": _file} for _file in files]
-            context['request']['has_file'] = bool(files)
-            context['request']['has_image'] = bool(files)
-            # [DEBUG]
-            # logging.info(context['request']['message']['text'].key)
-        else:
-            # [DEBUG]
-            pass  # logging.info(context['request']['message']['text'])
         self.tasks.append(SenderTask(service, copy.deepcopy(context.__dict__['request'])))
 
     async def _execute_tasks(self):

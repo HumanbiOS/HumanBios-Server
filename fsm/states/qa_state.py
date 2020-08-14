@@ -1,5 +1,4 @@
 from server_logic.definitions import Context
-from strings.qa_module import get_next_question, get_user_scores, get_string, get_previous_question
 from db import ServiceTypes, User
 from datetime import timedelta
 from strings.items import TextPromise
@@ -7,17 +6,45 @@ from . import base_state
 import asyncio
 import logging
 
+# Find message by id
+def get_msg(data, id_):
+    for message in data:
+        if message["id"] == id_:
+            return message
+
+# Get first message; next message; next message by the answer
+def get_next(items, curr_id=None, answer=None):
+    if curr_id is None:
+        for _msg in items:
+            if _msg['is_first_message']:
+                return _msg
+        else:
+            raise ValueError("Somehow we dont have first message?")
+    else:
+        curr_ = get_msg(items, curr_id)
+
+    if curr_['buttons']:
+        # find button
+        for btn in curr_['buttons']:
+            if answer == btn['text_key']:
+                id_ = btn.get("next_message")
+                if id_ is not None:
+                    return get_msg(items, id_)
+    elif curr_:
+        return get_msg(items, curr_["next_message"])
+
 
 class QAState(base_state.BaseState):
 
     async def entry(self, context: Context, user: User, db):
         # Get the first question
-        question = get_next_question(user['identity'], user['language'], custom_obj=self.strings)
+        question = get_next(self.bots_data)
         # Create qa storage
         user['answers']['qa'] = {
-            'q': question.id,
+            'curr_q': question["id"],
             'qa_results': {},
-            'qa_keys': [],
+            'qa_history': [],
+            'multichoice_cache': {},
             'score': 0
         }
         # Easy method to prepare context for question
@@ -28,151 +55,153 @@ class QAState(base_state.BaseState):
 
     async def process(self, context: Context, user: User, db):
         # Get saved current question
-        curr_q = get_next_question(user['identity'], user['language'], user['answers']['qa']['q'], custom_obj=self.strings)
+        curr_q = get_msg(self.bots_data, user["answers"]["qa"]["curr_q"])
         # Alias for text answer
         raw_answer = context['request']['message']['text']
-        
+        # Parse button to have easy access to intent
         button = self.parse_button(
-            raw_answer, 
-            truncated=context['request']['service_in'] == ServiceTypes.FACEBOOK
+            raw_answer,
+            truncated=context['request']['service_in'] == ServiceTypes.FACEBOOK,
+            verify=self.get_button_keys(curr_q)
         )
+
+        save_answer = True
         # [DEBUG]
         # logging.info(button)
-        # logging.info(curr_q.answers)
+
         # Save current score
-        user['answers']['qa']['score'] = get_user_scores(user['identity'])
+        # user['answers']['qa']['score'] = get_user_scores(user['identity'])
         # print(user['answers']['qa']['score'])
+        
         # Handle edge buttons
         # If `stop` button -> kill dialog
         if button == 'stop':
             # Jump from current state to final `end` state
             return base_state.GO_TO_STATE("ENDState")
-        
-        if button not in ['back']:
-            # @Important: `Not a legit answer` fallback
-            # If question is not free AND answer is not in possible answers to the question
-            # [DEBUG]
-            # logging.info(button)
-            # logging.info(curr_q.answers)
-            if not curr_q.free and button not in curr_q.answers:
-                # Send invalid answer text
-                context['request']['message']['text'] = self.strings['invalid_answer']
-                context['request']['has_buttons'] = False
-                self.send(user, context)
-                # Repeat the question
-                self.set_data(context, curr_q)
-                # Sent another message
+        # Handle back button
+        elif button == "back":
+            # Empty history stack -> go back to the previous state
+            history = user["answers"]["qa"]["qa_history"]
+            if history:
+                next_q = get_msg(self.bots_data, history.pop())
+                user["answers"]["qa"]["curr_q"] = next_q["id"]
+
+                self.set_data(context, next_q)
                 self.send(user, context)
                 return base_state.OK
-            # check if we have a multi question
-            if curr_q.multi:
-                # @Important: if the answer is next, it means the user skipped answering or
-                # submitted answers. Anyway, we want the next question
-                next_button = get_string(user['language'], 'questionnaire_button_next', custom_obj=self.strings)
-                # Compare class Button to the TextPromise, need to extract key from
-                # latter to decrease complexity of classes
-                if button == next_button.key:  # ignore
-                    if curr_q.id in user['answers']['qa']['qa_results']:
-                        # we override this so we dont have to change the code later
-                        raw_answer = user['answers']['qa']['qa_results'][curr_q.id]
-                # this means the user submitted some kind of answer
+            else:
+                return base_state.GO_TO_STATE("LanguageDetectionState")
+        # Handle multichoice
+        elif curr_q['command'] == "multichoice":
+            # Next question
+            if button == "next":
+                if curr_q["id"] in user['answers']['qa']['qa_results']:
+                    # We override this so we dont have to change the code later
+                    raw_answer = user['answers']['qa']['qa_results'][curr_q["id"]]
                 else:
-                    # @Important: first answer, we set this to an empty string so the in
-                    # @Important: check works but we can use a False check later
-                    if curr_q.id not in user['answers']['qa']['qa_results']:
-                        user['answers']['qa']['qa_results'][curr_q.id] = ""
-                    # that means they resend an answer
-                    if raw_answer in user['answers']['qa']['qa_results'][curr_q.id]:
-                        # Send invalid answer text
-                        context['request']['message']['text'] = self.strings['invalid_answer']
-                        context['request']['has_buttons'] = False
-                        self.send(user, context)
-                        # Repeat the question
-                        self.set_data(context, curr_q)
-                        # now we override the buttons
-                        context['request']['has_buttons'] = True
-                        keyboard = [{"text": answer} for answer in curr_q.answers if
-                                    answer not in user['answers']['qa']['qa_results'][curr_q.id]]
-                        keyboard += [{"text": self.strings['stop']}]
-                        context['request']['buttons'] = keyboard
-                        # Sent another message
-                        self.send(user, context)
-                        return base_state.OK
-                    # here we use the False check so we dont have a leading comma
-                    if not user['answers']['qa']['qa_results'][curr_q.id]:
-                        user['answers']['qa']['qa_results'][curr_q.id] = raw_answer
-                    # storing the answers in a string, separated with a ,
-                    else:
-                        user['answers']['qa']['qa_results'][curr_q.id] += f", {raw_answer}"
-                    # make sure to store checked keys
-                    user['answers']['qa']['qa_keys'].append(button.key)
-                    # we have to rebuild the keyboard cause new answer
-                    keyboard = [{"text": answer} for answer in curr_q.answers if
-                                answer.key not in user['answers']['qa']['qa_keys']]
-                    keyboard += [{"text": self.strings['stop']}]
-                    context['request']['message']['text'] = self.strings['qa_multi'].format(next_button)
-                    context['request']['has_buttons'] = True
-                    context['request']['buttons'] = keyboard
+                    save_answer = False
+            # This means the user submitted some kind of answer
+            else:
+                # @Important: first answer, we set this to an empty string so the in
+                # @Important: check works but we can use a False check later
+                if curr_q["id"] not in user['answers']['qa']['qa_results']:
+                    user['answers']['qa']['qa_results'][curr_q["id"]] = ""
+                    user['answers']['qa']['multichoice_cache'][curr_q['id']] = []
+                # Handle repeating answer
+                if raw_answer in user['answers']['qa']['qa_results'][curr_q["id"]]:
+                    # Send invalid answer text
+                    context['request']['message']['text'] = self.strings['invalid_answer']
+                    context['request']['has_buttons'] = False
+                    self.send(user, context)
+                    # Repeat the question
+                    self.set_data(context, curr_q, avoid_buttons=user['answers']['qa']['multichoice_cache'][curr_q['id']])
+                    # Sent another message
                     self.send(user, context)
                     return base_state.OK
-            # Record the answer
-            user['answers']['qa']['qa_results'][curr_q.id] = raw_answer
-            # Find next question
-            next_q_id = None
-            # If question is free, just get the next question
-            if curr_q.free:
-                # Set next id to the only possible question
-                next_q_id = curr_q.answers
-            # If answer in answers, map to the next question
-            elif button in curr_q.answers:
-                # In this questions, answers are the `answer`:`next_question` maps
-                next_q_id = curr_q.answers[button]
-        else:
-            next_q = get_previous_question(user['identity'], user['language'], curr_q.id, self.strings)
-            if not next_q:
-                user['context']['bq_state'] = 4
-                return base_state.GO_TO_STATE("BasicQuestionState")
-            next_q_id = next_q.id
-        # Get next question via qa_module method
-        next_q = get_next_question(user['identity'], user['language'], next_q_id, self.strings)
-        # If next question is a string, its the final recommendation. we will send it out then switch
-        if isinstance(next_q, TextPromise):
-            context['request']['message']['text'] = next_q
+                # Here we use the False check so we dont have a leading comma
+                if not user['answers']['qa']['qa_results'][curr_q["id"]]:
+                    user['answers']['qa']['qa_results'][curr_q["id"]] = raw_answer
+                # Storing the answers in a string, separated with a comma
+                else:
+                    user['answers']['qa']['qa_results'][curr_q["id"]] += f", {raw_answer}"
+                # Make sure to store checked keys
+                user['answers']['qa']['multichoice_cache'][curr_q['id']].append(button.key)
+                # Send special message with buttons that left
+                self.set_data(context, curr_q, avoid_buttons=user['answers']['qa']['multichoice_cache'][curr_q['id']])
+                context['request']['message']['text'] = self.strings['qa_multi'].format(next_button)
+                self.send(user, context)
+                return base_state.OK
+
+        next_q = get_next(self.bots_data, curr_q["id"], button)
+        # Handle special cases
+        #    no next message  ->  ->   \ 
+        #                               -> assume wrong answer, repeat question
+        #    special key "repeat"  ->  /
+        if next_q is None or next_q['command'] == "repeat":
+            # Send invalid answer text
+            context['request']['message']['text'] = self.strings['invalid_answer']
             context['request']['has_buttons'] = False
             self.send(user, context)
-            user['context']['bq_state'] = 8
-            # Create checkback task (in 60 seconds now)
-            context['request']['message']['text'] = self.strings['checkback']
-            context['request']['has_buttons'] = True
-            context['request']['buttons_type'] = "text"
-            context['request']['buttons'] = [{"text": self.strings['yes']}, {"text": self.strings['no']}]
-            self.create_task(db.create_checkback, user, context, timedelta(seconds=15))
-            return base_state.GO_TO_STATE("BasicQuestionState")
-        # If next question exists -> prepare data
-        else:
-            # Set next question
-            user['answers']['qa']['q'] = next_q.id
+            # Repeat the question
+            self.set_data(context, curr_q)
+            # Sent another message
+            self.send(user, context)
+            return base_state.OK
+        # Handle special comamnd #end
+        elif next_q['command'] == "end":
+            # If message was just an "#end"
+            if not next_q['text']:
+                return base_state.GO_TO_STATE("ENDState")
+            # Else send the message and end message after that
             self.set_data(context, next_q)
-        # Send message
+            self.send(user, context)
+            return base_state.GO_TO_STATE("ENDState")
+
+
+        # Record the answer
+        if save_answer:
+            user['answers']['qa']['qa_results'][curr_q["id"]] = raw_answer
+        user["answers"]["qa"]["curr_q"] = next_q["id"]
+        user["answers"]["qa"]["qa_history"].append(curr_q["id"])
+        
+        # Send next question
+        self.set_data(context, next_q)
         self.send(user, context)
+
+        # Send multiple messages if special command is there
+        while next_q['command'] == "partial":
+            next_q = get_next(self.bots_data, curr_q["id"])
+            self.set_data(context, next_q)
+            self.send(user, context)
+        
         return base_state.OK
 
     # @Important: easy method to prepare context
-    def set_data(self, context, question):
+    def set_data(self, context, question, avoid_buttons=None):
+        # Change value from None to empty list for the "in" operator
+        if avoid_buttons is None:
+            avoid_buttons = []
+
         # Set according text
-        context['request']['message']['text'] = question.text
-        # Sometimes questions have useful `note`
-        if question.comment:
-            context['request']['message']['text'] += "\n\n"
-            context['request']['message']['text'] += question.comment
+        context['request']['message']['text'] = self.strings[question["text_key"]]
 
         # Always have buttons
         context['request']['has_buttons'] = True
         context['request']['buttons_type'] = "text"
         # If not a free question -> add it's buttons
-        if not question.free:
-            context['request']['buttons'] = [{"text": answer} for answer in question.answers]
+        if not question["free_answer"]:
+            context['request']['buttons'] = [
+                {"text": self.strings[button["text_key"]]} for button in question["buttons"] \
+                if button["text_key"] not in avoid_buttons
+            ]
         else:
             context['request']['buttons'] = []
         # Always add edge buttons
         context['request']['buttons'] += [{"text": self.strings['back']}, {"text": self.strings['stop']}]
+
+    # save expected buttons to avoid excidental collapses
+    def get_button_keys(self, next_q):
+        result = [button["text_key"] for button in next_q["buttons"]]
+        # Add special buttons
+        result += ['back', 'stop']
+        return result

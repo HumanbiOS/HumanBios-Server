@@ -1,20 +1,4 @@
 from typing import TypedDict, List, Dict, Union, Set, Iterable
-from strings.qa_module.setup import questions
-# modify questions (BLOAT)
-to_modify = {
-    "answer_yes": "yes",
-    "answer_no": "no"
-}
-for question in questions.values():
-    answers = question.get("answers")
-    if answers is not None:
-        items = [(key, answers[key]) for key in answers]
-        for key, value in items:
-            new_key = to_modify.get(key)
-            if new_key is not None:
-                del answers[key]
-                answers[new_key] = value
-
 from .items import TextPromise, Button
 from translation import Translator
 from settings import ROOT_PATH
@@ -23,13 +7,6 @@ import hashlib
 import logging
 import json
 import os
-
-try:
-    from strings.qa_module.methods import get_english_strings
-except:
-    logging.exception("Couldn't load base for questions in qa_module (get_english_strings) ")
-    get_english_strings = lambda: dict()
-
 
 def load(*path):
     path = os.path.join(ROOT_PATH, *path)
@@ -45,7 +22,7 @@ class StringAccessor:
 
     def __getitem__(self, key: str) -> TextPromise:
         promise = TextPromise(key)
-        res = self.strings.get(key)
+        res = self.strings[self.lang].get(key)
         if res is None:
             self.promises.append(promise)
         else:
@@ -60,9 +37,12 @@ class StringAccessor:
 
 class Strings:
     __strings = load('strings', 'json', 'strings.json')
-    # Update dict with values of QA-module
-    __strings.update(get_english_strings())
-    logging.info(json.dumps(__strings, indent=4))
+    if os.path.exists(os.path.join(ROOT_PATH, 'archive', 'latest.json')):
+        for message in load('archive', 'latest.json'):
+            __strings[message['text_key']] = message['text']
+            if message['buttons']:
+                for btn in message['buttons']:
+                    __strings[btn['text_key']] = btn['text']
 
     original_strings = {}
     for each_key in __strings:
@@ -79,7 +59,25 @@ class Strings:
         asyncio.run(self.load_everything())
     
     def __getitem__(self, key: str):
-        return self.cache[key]
+        return self.cache.get(key, {})
+
+    def update_strings(self):
+        self.__strings = load('strings', 'json', 'strings.json')
+        self.original_strings = {}
+
+        for message in load('archive', 'latest.json'):
+            self.__strings[message['text_key']] = message['text']
+            if message['buttons']:
+                for btn in message['buttons']:
+                    self.__strings[btn['text_key']] = btn['text']
+        
+        for each_key in self.__strings:
+            self.original_strings[each_key] = {
+                "text": self.__strings[each_key],
+                "hash": hashlib.sha1(self.__strings[each_key].encode()).hexdigest()
+            }
+        # make sure to update pointer
+        self.cache['en'] = self.__strings
 
     def get(self, key: str):
         return self.cache.get(key)

@@ -3,12 +3,16 @@ humanbiosbots.com {
 }
 
 server.humanbiosbots.com {
-    handle /api/* {
-        reverse_proxy humanbios-server:8282
-    }
-    handle {
+    handle /files/* {
         root * files
         file_server
+    }
+    handle /static/* {
+        root * static
+        file_server
+    }
+    handle {
+        reverse_proxy humanbios-server:8080
     }
 }
 

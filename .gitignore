@@ -32,4 +32,7 @@ media/
 translated_strings/
 db-build/
 
+archive/*
+!archive/latest.json
+
 restart_with_rebuild.sh

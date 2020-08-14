@@ -1,7 +1,8 @@
 from db import Database, User, BroadcastMessage, Session
 from datetime import timedelta, datetime
 from db.enums import PermissionLevel
-from settings import settings, tokens
+from settings import settings, tokens, ROOT_PATH
+from fsm.states.base_state import BaseState
 import fsm.states as states
 from db import ServiceTypes
 from db import CheckBack
@@ -13,11 +14,13 @@ import logging
 import random
 import queue
 import json
+import os
 
 
 class Worker(threading.Thread):
     def __init__(self, loop_time=1.0 / 250):
         self.q = queue.Queue()
+        self.random_q = queue.Queue()
         self.timeout = loop_time
         self.handler = Handler()
         super(Worker, self).__init__()
@@ -31,6 +34,8 @@ class Worker(threading.Thread):
         asyncio.ensure_future(self.handler.reminder_loop())
         # Broadcast messages loop
         asyncio.ensure_future(self.handler.broadcast_loop())
+        # Loop of updating botsociety file data for the core path 
+        asyncio.ensure_future(self.autoload_file())
 
         while True:
             try:
@@ -47,6 +52,19 @@ class Worker(threading.Thread):
     def run(self):
         asyncio.run(self._run_processes())
 
+    async def autoload_file(self):
+        while True:
+            try:
+                _ = self.random_q.get(timeout=1.0/250)
+                self.handler.load_bots_file()
+            except queue.Empty:
+                await asyncio.sleep(1)
+            except Exception as e:
+                logging.exception(e)
+    
+    def reload_file(self):
+        self.random_q.put(True)
+        
 
 class Handler(object):
     STATES_HISTORY_LENGTH = 10
@@ -55,11 +73,19 @@ class Handler(object):
     BROADCASTING_STATE = "BroadcastingState"
     GET_ID_STATE = "GetIdState"
     EDIT_PERMISSIONS_STATE = "EditPermissionsState"
+    latest_data_fp = os.path.join(ROOT_PATH, "archive", "latest.json") 
 
     def __init__(self):
         self.__states = {}
         self.__register_states(*states.collect())
         self.db = Database()
+
+        if os.path.exists(self.latest_data_fp):
+            self.load_bots_file()
+            logging.info("Succesfuly loaded Core Botsociety file.")
+        else:
+            BaseState.bots_data = None
+            logging.warning("No Core Botsociety file was found!")
 
     def __register_state(self, state_class):
         self.__states[state_class.__name__] = state_class
@@ -84,25 +110,25 @@ class Handler(object):
         user = await self.db.get_user(context['request']['user']['identity'])
         if user is None:
             user = {
-                        "user_id": context['request']['user']['user_id'],
-                        "service": context['request']['service_in'],
-                        "identity": context['request']['user']['identity'],
-                        "via_instance": context['request']['via_instance'],
-                        "first_name": context['request']['user']['first_name'],
-                        "last_name": context['request']['user']['last_name'],
-                        "username": context['request']['user']['username'],
-                        "language": 'en',
-                        "type": self.db.types.COMMON,
-                        "created_at": self.db.now().isoformat(),
-                        "last_location": None,
-                        "last_active": self.db.now().isoformat(),
-                        "conversation_id": None,
-                        "answers": dict(),
-                        "files": dict(),
-                        "states": list("ENDState"),
-                        "permission_level": PermissionLevel.DEFAULT,
-                        "context": dict()
-                    }
+                "user_id": context['request']['user']['user_id'],
+                "service": context['request']['service_in'],
+                "identity": context['request']['user']['identity'],
+                "via_instance": context['request']['via_instance'],
+                "first_name": context['request']['user']['first_name'],
+                "last_name": context['request']['user']['last_name'],
+                "username": context['request']['user']['username'],
+                "language": 'en',
+                "type": self.db.types.COMMON,
+                "created_at": self.db.now().isoformat(),
+                "last_location": None,
+                "last_active": self.db.now().isoformat(),
+                "conversation_id": None,
+                "answers": dict(),
+                "files": dict(),
+                "states": list("ENDState"),
+                "permission_level": PermissionLevel.DEFAULT, 
+                "context": dict()
+            }
             await self.db.create_user(user)
 
         # @Important: Dynamically update associated service instance, when it was changed
@@ -115,12 +141,12 @@ class Handler(object):
                 user
             )
 
-        await self.__register_event(user)
+        #await self.__register_event(user)
         return user
 
-    async def __register_event(self, user: User):
-        # TODO: REGISTER USER ACTIVITY
-        pass
+    #async def __register_event(self, user: User):
+    #    # TODO: REGISTER USER ACTIVITY
+    #    pass
 
     async def process(self, context):
         # Getting or registering user
@@ -298,3 +324,9 @@ class Handler(object):
         await asyncio.gather(*tasks)
         # Remove done broadcast task
         await self.db.remove_broadcast(broadcast_message)
+
+    @classmethod
+    def load_bots_file(cls):
+        with open(os.path.join(ROOT_PATH, "archive", "latest.json")) as source:
+            BaseState.bots_data = json.load(source)
+            BaseState.STRINGS.update_strings()
