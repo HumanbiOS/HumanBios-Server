@@ -33,4 +33,3 @@ translated_strings/
 db-build/
 
 restart_with_rebuild.sh
-.gitmodules
