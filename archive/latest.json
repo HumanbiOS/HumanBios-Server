@@ -23,18 +23,18 @@
     "text_with_variables": "Accept",
     "is_next_message_linked": false,
     "next_message": "5f32cc00078b82b1137dc0b8",
-    "text_key": "ba836bc4-btn0"
+    "text_key": "2aabb83a-btn0"
    },
    {
     "text": "Reject",
     "text_with_variables": "Reject",
     "is_next_message_linked": false,
     "next_message": "5f32cc00078b8234b77dc0b6",
-    "text_key": "ba836bc4-btn1"
+    "text_key": "2aabb83a-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "ba836bc4",
+  "text_key": "2aabb83a",
   "command": null
  },
  {
@@ -59,7 +59,7 @@
 
   ],
   "multichoice": false,
-  "text_key": "b5ff06b3",
+  "text_key": "26d397b0",
   "command": "end"
  },
  {
@@ -84,7 +84,7 @@
 
   ],
   "multichoice": false,
-  "text_key": "e0d227bc",
+  "text_key": "ee18c465",
   "command": "story"
  },
  {
@@ -119,18 +119,18 @@
     "text_with_variables": "Living alone",
     "is_next_message_linked": false,
     "next_message": "5f32ce38078b82605c7dc2a4",
-    "text_key": "b4b65d36-btn0"
+    "text_key": "8e5edaa4-btn0"
    },
    {
     "text": "Living together with family, in a shared flat, or in a supervised community facility",
     "text_with_variables": "Living together with family, in a shared flat, or in a supervised community facility",
     "is_next_message_linked": true,
     "next_message": "5f32ce38078b82605c7dc2a4",
-    "text_key": "b4b65d36-btn1"
+    "text_key": "8e5edaa4-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "b4b65d36",
+  "text_key": "8e5edaa4",
   "command": null
  },
  {
@@ -157,18 +157,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
     "next_message": "5f32cc00078b82d68a7dc0bc",
-    "text_key": "f80078de-btn0"
+    "text_key": "bd12e781-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": false,
     "next_message": "5f32ce38078b824fc07dc2a6",
-    "text_key": "f80078de-btn1"
+    "text_key": "bd12e781-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "f80078de",
+  "text_key": "bd12e781",
   "command": null
  },
  {
@@ -195,71 +195,46 @@
     "text_with_variables": "Under 40",
     "is_next_message_linked": false,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "37925fd9-btn0"
+    "text_key": "4acf4f2c-btn0"
    },
    {
     "text": "40-50",
     "text_with_variables": "40-50",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "37925fd9-btn1"
+    "text_key": "4acf4f2c-btn1"
    },
    {
     "text": "51-60",
     "text_with_variables": "51-60",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "37925fd9-btn2"
+    "text_key": "4acf4f2c-btn2"
    },
    {
     "text": "61-70",
     "text_with_variables": "61-70",
     "is_next_message_linked": false,
     "next_message": "5f32ce38078b82e95b7dc2a8",
-    "text_key": "37925fd9-btn3"
+    "text_key": "4acf4f2c-btn3"
    },
    {
     "text": "71-80",
     "text_with_variables": "71-80",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "37925fd9-btn4"
+    "text_key": "4acf4f2c-btn4"
    },
    {
     "text": "Over 80",
     "text_with_variables": "Over 80",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "37925fd9-btn5"
+    "text_key": "4acf4f2c-btn5"
    }
   ],
   "multichoice": false,
-  "text_key": "37925fd9",
-  "command": null
- },
- {
-  "id": "5f32cc00078b82797b7dc0b9",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea3235a0b9b3385018a3e9e",
-  "updated_at": "2020-08-14T15:16:43.292Z",
-  "created_at": "2020-08-11T16:49:04.693Z",
-  "is_left_side": false,
-  "text": "Some story here",
-  "type": "text",
-  "next_message": "5f32cc00078b8210757dc0ba",
-  "is_next_message_linked": false,
-  "prev_message": "5f32cc00078b82b1137dc0b8",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Some story here",
-  "intent": "default-intent-1",
-  "free_answer": false,
-  "buttons": [
-
-  ],
-  "multichoice": false,
-  "text_key": "5013bc89",
+  "text_key": "4acf4f2c",
   "command": null
  },
  {
@@ -286,18 +261,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4a92a3bf-btn0"
+    "text_key": "999cb404-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
     "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4a92a3bf-btn1"
+    "text_key": "999cb404-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "4a92a3bf",
+  "text_key": "999cb404",
   "command": null
  },
  {
@@ -327,18 +302,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
     "next_message": "5f32d708078b82216d7dcf61",
-    "text_key": "fb599ff5-btn0"
+    "text_key": "27493126-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
     "next_message": "5f32d708078b82216d7dcf61",
-    "text_key": "fb599ff5-btn1"
+    "text_key": "27493126-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "fb599ff5",
+  "text_key": "27493126",
   "command": null
  },
  {
@@ -364,17 +339,17 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "text_key": "19199b52-btn0"
+    "text_key": "96cb52a0-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": false,
-    "text_key": "19199b52-btn1"
+    "text_key": "96cb52a0-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "19199b52",
+  "text_key": "96cb52a0",
   "command": null
  },
  {
@@ -404,25 +379,25 @@
     "text_with_variables": "In the medical field",
     "is_next_message_linked": false,
     "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "a6cbc75c-btn0"
+    "text_key": "f8f968f0-btn0"
    },
    {
     "text": "In a community facility (school, day care center, university, home etc.)",
     "text_with_variables": "In a community facility (school, day care center, university, home etc.)",
     "is_next_message_linked": true,
     "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "a6cbc75c-btn1"
+    "text_key": "f8f968f0-btn1"
    },
    {
     "text": "No, in none of the above",
     "text_with_variables": "No, in none of the above",
     "is_next_message_linked": true,
     "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "a6cbc75c-btn2"
+    "text_key": "f8f968f0-btn2"
    }
   ],
   "multichoice": false,
-  "text_key": "a6cbc75c",
+  "text_key": "f8f968f0",
   "command": null
  },
  {
@@ -453,18 +428,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
     "next_message": "5f36acb6e64ff52ff87a61a9",
-    "text_key": "4acfccdb-btn0"
+    "text_key": "71ef09b4-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
     "next_message": "5f36acb6e64ff52ff87a61a9",
-    "text_key": "4acfccdb-btn1"
+    "text_key": "71ef09b4-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "4acfccdb",
+  "text_key": "71ef09b4",
   "command": null
  },
  {
@@ -496,18 +471,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
     "next_message": "5f36adb3f2243efe6d543fa8",
-    "text_key": "ffb5df89-btn0"
+    "text_key": "bec97ebf-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
     "next_message": "5f36adb3f2243efe6d543fa8",
-    "text_key": "ffb5df89-btn1"
+    "text_key": "bec97ebf-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "ffb5df89",
+  "text_key": "bec97ebf",
   "command": null
  },
  {
@@ -537,18 +512,18 @@
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
     "next_message": "5f36adb3f2243e16e0543faa",
-    "text_key": "8b27ed4a-btn0"
+    "text_key": "a277c29e-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
     "next_message": "5f36adb3f2243ed240543fac",
-    "text_key": "8b27ed4a-btn1"
+    "text_key": "a277c29e-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "8b27ed4a",
+  "text_key": "a277c29e",
   "command": null
  },
  {
@@ -577,17 +552,17 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "text_key": "804bb9bd-btn0"
+    "text_key": "da0c413b-btn0"
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": false,
-    "text_key": "804bb9bd-btn1"
+    "text_key": "da0c413b-btn1"
    }
   ],
   "multichoice": false,
-  "text_key": "804bb9bd",
+  "text_key": "da0c413b",
   "command": null
  },
  {
@@ -612,32 +587,7 @@
 
   ],
   "multichoice": false,
-  "text_key": "3b12ef13",
-  "command": null
- },
- {
-  "id": "5f36adb3f2243e286e543fab",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea3235a0b9b3385018a3e9e",
-  "updated_at": "2020-08-14T15:43:53.701Z",
-  "created_at": "2020-08-14T15:28:51.366Z",
-  "is_left_side": false,
-  "text": "Some date",
-  "type": "text",
-  "next_message": "5f36adb3f2243ed240543fac",
-  "is_next_message_linked": false,
-  "prev_message": "5f36adb3f2243e16e0543faa",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Some date",
-  "intent": "default-intent-9",
-  "free_answer": false,
-  "buttons": [
-
-  ],
-  "multichoice": false,
-  "text_key": "56c1c508",
+  "text_key": "19812570",
   "command": null
  }
 ]
