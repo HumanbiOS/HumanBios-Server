@@ -49,10 +49,10 @@ class Worker(threading.Thread):
 
 class Handler(object):
     STATES_HISTORY_LENGTH = 10
+    START_STATE = "StartState"
+    BLOGGING_STATE = "BloggingState"
 
     def __init__(self):
-        self.__start_state = "StartState"
-        self.__blogging_state = "BloggingState"
         self.__states = {}
         self.__register_states(*states.collect())
         self.db = Database()
@@ -71,7 +71,7 @@ class Handler(object):
         if state is None:
             # If non-existing state - send user to the start state
             # @Important: Don't forget to initialize the state
-            return False, self.__states[self.__start_state](), self.__start_state
+            return False, self.__states[Handler.START_STATE](), Handler.START_STATE
         # @Important: Don't forget to initialize the state
         return True, state(), name
 
@@ -140,14 +140,14 @@ class Handler(object):
             text = str(text)
             if text.startswith("/start"):
                 context['request']['message']['text'] = text[6:].strip()
-                return self.__start_state
+                return Handler.START_STATE
             if text.startswith("/postme"):
-                return self.__blogging_state
-        # defaults to __start_state
+                return Handler.BLOGGING_STATE
+        # defaults to START_STATE
         try:
             return user['states'][-1]
         except IndexError:
-            return self.__start_state
+            return Handler.START_STATE
 
     async def __handle_ret_code(self, context, user, ret_code):
         # Handle return codes
