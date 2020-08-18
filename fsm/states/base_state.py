@@ -89,7 +89,7 @@ class BaseState(object):
     db = Database()
     nlu = NLUWorker(tr)
     STRINGS = Strings(tr, db)
-    
+    # Data buffer that is assigned to when the class is initiated, stores refference to the relevant Botsociety Data 
     bots_data = None
 
     # Media path and folder
@@ -121,6 +121,14 @@ class BaseState(object):
         self.strings = StringAccessor(self.__language, self.STRINGS)
 
     async def wrapped_entry(self, context: Context, user: User):
+        """
+        This method is executed when user enters State for the first time, if `has_entry` variable is set to True.
+        It is a wrapper for state-author-modified `entry` method.
+
+        Args:
+            context (Context): holds parsed and verified request, with auto-filled default values
+            user (User): user object that is stored directly in the database
+        """
         # Set language
         self.set_language(user['language'])
         # Wrap base method to avoid breaking server
@@ -138,8 +146,7 @@ class BaseState(object):
         # @Important: Fulfill text promises
         if self.strings.promises:
             await self.strings.fill_promises()
-        # @Important: Since we call this always, check if
-        # @Important: the call is actually needed
+        # @Important: Since we call this always, check if the call is actually needed
         if self.tasks:
             # @Important: collect all requests
             _results = await self._collect()
@@ -149,6 +156,15 @@ class BaseState(object):
         return status
 
     async def wrapped_process(self, context: Context, user: User):
+        """
+        This method is executed when user enters State for second or any consequent time, 
+        or for the first time if `has_entry` variable is set to False.
+        It is a wrapper for state-author-modified `process` method.
+
+        Args:
+            context (Context): holds parsed and verified request, with auto-filled default values
+            user (User): user object that is stored directly in the database
+        """
         # Set language
         self.set_language(user['language'])
         # Wrap base method to avoid breaking server
@@ -166,8 +182,7 @@ class BaseState(object):
         # @Important: Fulfill text promises
         if self.strings.promises:
             await self.strings.fill_promises()
-        # @Important: Since we call this always, check if
-        # @Important: the call is actually needed
+        # @Important: Since we call this always, check if the call is actually needed
         if self.tasks:
             # @Important: collect all requests
             await self._collect()
@@ -207,13 +222,11 @@ class BaseState(object):
         text is raw_text and key is a key of matched string from strings.json
 
         Args:
-        raw_text (str): just user's message
-        truncated (bool): option to look for not full matches (only first `n` characters). Defaults to False.
-        truncation_size (int): amount of sequential characters to match. Defaults to 20.
+            raw_text (str): just user's message
+            truncated (bool): option to look for not full matches (only first `n` characters). Defaults to False.
+            truncation_size (int): amount of sequential characters to match. Defaults to 20.
+            verify (list, set): a custom object that is used instead of global language object (e.g. you want a match from the list of specific buttons)
         """
-        # @Question: is it worth it?
-        #    Optimise search if `verify` is not None, makes following loop O(n1) instead of O(n) where n1 is length of the verify, 
-        #    which is 100% definitely in range 1-10
         btn = Button(raw_text)
         lang_obj = self.STRINGS.cache.get(self.__language)
         # Make sure that certain language file exists
@@ -228,17 +241,24 @@ class BaseState(object):
                 # logging.info(value)
                 btn.set_key(k)
                 break
-        # [DEBUG]
-        # logging.info("\n\n\n\n")
-        # logging.info(verify)
-        # logging.info(lang_obj)
-        # logging.info(btn)
         return btn
 
     # Parse intent of single-formatted string, comparing everything but inserted 
     #     Returns True           ->     intent matched
     #     Returns None or False  ->     intent didn't match
     def parse_fstring(self, raw_text: str, promise: TextPromise, item1: str = "{", item2: str = "}"):
+        """
+        Method lets you compare "filled" f-string with "un-filled" one to identify intent, which is not possible 
+        with simple `==` comparison, because the f-string is *actually* "filled".
+
+        Compares sub-strings to the "{" char and after the "}" char, exclusively. 
+
+        Args:
+            raw_text (str): raw input, which is "filled" string
+            promise (TextPromise): cached input, "un-filled" string
+            item1 (str): object to compare from start to position of it in the strings *exclusively*
+            item2 (str): object to compare from its position to the end of the strings *exclusively*
+        """
         if promise.value and isinstance(promise.value, str):
             # Find where "{" or "}" should've been, then use it to go one char left or right, accordingly
             i1 = promise.value.find(item1)
@@ -256,6 +276,11 @@ class BaseState(object):
     # @Important:    for example if next call needs to upload it somewhere
     # @Important:    If you deal with reliability and consistency - great optimisation
     async def download_by_url(self, url, *folders, filename):
+        """
+        Downloads any file to the given directory with given filename from the url, in asynchronous way (not-blocking-ish).
+        """
+        # TODO: Use async executor for real non-blocking?
+        # TODO: Or, do we really need this method?
         # Make sure file exists
         if not self.exists(*folders):
             # Create folder on the path
@@ -275,6 +300,9 @@ class BaseState(object):
 
     # @Important: check if downloaded file exist
     def exists(self, *args):
+        """
+        Checks for the file in the passed directory/filepath, shortcut for the os `exists` and `join` methods
+        """
         return os.path.exists(os.path.join(self.media_path, *args))
 
     # @Important: high level access to translation module
@@ -292,8 +320,6 @@ class BaseState(object):
         target (str): target language (ISO 639-1 code)
         """
         return await self.tr.translate_text(text, target)
-
-    # Sugar
 
     # @Important: command to actually send all collected requests from `process` or `entry`
     async def _collect(self):
