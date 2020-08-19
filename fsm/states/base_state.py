@@ -327,9 +327,13 @@ class BaseState(object):
         results = list()
         async with ClientSession(json_serialize=lambda o: json.dumps(o, cls=PromisesEncoder)) as session:
             # @Important: Since asyncio.gather order is not preserved, we don't want to run them concurrently
-            # @Important: so, gather tasks that was tagged with "allow_gather"
-            if self.random_tasks:
-                results.extend(await asyncio.gather(*(self._send(r_task, session) for r_task in self.random_tasks)))
+            # @Important: so, gather tasks that were tagged with "allow_gather".
+            
+            # @Important: Group tasks by the value of "size" for the sake of not hitting front end too hard
+            size = 30
+            for coeff in range(len(self.random_tasks[::size])):
+                results.extend(await asyncio.gather(*(self._send(r_task, session) for r_task in self.random_tasks[size*coeff:size*(coeff+1)])))
+            # Send ordinary tasks
             for each_task in self.tasks:
                 res = await self._send(each_task, session)
                 results.append(res)
