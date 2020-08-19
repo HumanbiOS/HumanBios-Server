@@ -26,3 +26,5 @@ try:
 except (ValueError, SyntaxError) as e:
     DEBUG = None
     logging.exception(f"Expected bool, got {os.environ['DEBUG']}")
+
+OWNER_HASH = os.environ.get("OWNER_HASH", None)

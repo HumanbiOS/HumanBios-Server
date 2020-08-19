@@ -118,6 +118,20 @@ class Database:
         # [DEBUG] logging.info(user)
         self.Users.put_item(Item=user)
 
+    async def scan_users(self, condition: Optional[Attr], projection_expression: Optional[str], page_size: int = 100):
+        kwargs = {"FilterExpression": condition} if condition else {}
+        while True:
+            response = self.Users.scan(
+                ProjectionExpression=projection_expression,
+                **kwargs
+            )
+            for v in response.get("Items", []):
+                yield v
+            kwargs["ExclusiveStartKey"] = response.get("LastEvaluatedKey", False)
+            if kwargs["ExclusiveStartKey"] is False:
+                return
+
+
     # Conversations
     async def create_conversation(self, user: User, users: dict, type_: AccountType):
         conv_id = str(uuid.uuid4())
