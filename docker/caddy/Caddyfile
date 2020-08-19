@@ -1,5 +1,5 @@
 humanbiosbots.com {
-    reverse_proxy humanbios-fb:8443
+    reverse_proxy humanbios-fb:8080
 }
 
 server.humanbiosbots.com {
