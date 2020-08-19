@@ -10,7 +10,7 @@ services:
     - 443:443
     volumes:
     - ./Caddyfile:/etc/caddy/Caddyfile
-    - ../../files:/files
+    - ../../archive:/archive
     - ../../static:/static
 
 networks:

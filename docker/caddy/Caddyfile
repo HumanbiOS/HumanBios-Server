@@ -3,8 +3,8 @@ humanbiosbots.com {
 }
 
 server.humanbiosbots.com {
-    handle /files/* {
-        root * files
+    handle /archive/* {
+        root * archive
         file_server
     }
     handle /static/* {
@@ -16,12 +16,8 @@ server.humanbiosbots.com {
     }
 }
 
-#webchat.humanbiosbots.com {
+#websocket.humanbiosbots.com {
 #    handle /api/* {
-#        reverse_proxy humanbios-webchat:8030
-#    }
-#    handle {
-#        root * web_chat
-#        file_server
+#        reverse_proxy humanbios-websocket:8080
 #    }
 #}
