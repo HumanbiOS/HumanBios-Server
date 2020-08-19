@@ -103,6 +103,7 @@ class BaseState(object):
     def __init__(self):
         # Keeps list of tasks
         self.tasks = list()
+        self.random_tasks = list()
         # Keeps execution queue
         self.execution_queue = list()
         # Create language variable
@@ -326,10 +327,9 @@ class BaseState(object):
         results = list()
         async with ClientSession(json_serialize=lambda o: json.dumps(o, cls=PromisesEncoder)) as session:
             # @Important: Since asyncio.gather order is not preserved, we don't want to run them concurrently
-            # tasks = [self._send(task, session) for task in self.tasks[id(context)]]
-            # group = asyncio.gather(*tasks)
-            # results = await group
-            # return results
+            # @Important: so, gather tasks that was tagged with "allow_gather"
+            if self.random_tasks:
+                results.extend(await asyncio.gather(*(self._send(r_task, session) for r_task in self.random_tasks)))
             for each_task in self.tasks:
                 res = await self._send(each_task, session)
                 results.append(res)
@@ -340,10 +340,7 @@ class BaseState(object):
         # Takes instance data holder object with the name from the tokens storage, extracts url
         url = tokens[task.service].url
         # Unpack context, set headers (content-type: json)
-        async with session.post(url,
-                json=task.context,
-                headers=self.HEADERS
-            ) as resp:
+        async with session.post(url, json=task.context, headers=self.HEADERS) as resp:
             # If reached server - log response
             if resp.status == 200:
                 pass  # [DEBUG]
@@ -358,7 +355,7 @@ class BaseState(object):
                 logging.error(f"[ERROR]: Sending task (service={task.service}, context={task.context}) status {await resp.text()}")
 
     # @Important: `send` METHOD THAT ALLOWS TO SEND PAYLOAD TO THE USER
-    def send(self, to_entity: Union[User, str], context: Context):
+    def send(self, to_entity: Union[User, str], context: Context, allow_gather=False):
         """
         Method creates task that sends context['request'] to the
         to_user User after executing your code inside state.
@@ -380,7 +377,11 @@ class BaseState(object):
         else:
             service = to_entity['via_instance']
 
-        self.tasks.append(SenderTask(service, copy.deepcopy(context.__dict__['request'])))
+        task = SenderTask(service, copy.deepcopy(context.__dict__['request']))
+        if allow_gather:
+            self.random_tasks.append(task)
+        else:
+            self.tasks.append(task)
 
     async def _execute_tasks(self):
         results = await asyncio.gather(
