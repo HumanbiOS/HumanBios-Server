@@ -29,7 +29,7 @@ def get_text(text: str) -> (str, bool, str):
         # Remove the #command after finding and strip any amount of trailing "\n" or " "
         return text.replace(f"#{cmd}", "").strip("\n "), True, cmd
     else:
-        return text, False, cmd
+        return text, False, None
 
 
 # Parse Botsociety api data
@@ -73,9 +73,13 @@ def parse_api(raw_data):
         elif msg['type'] == "text" and msg['is_left_side'] is False:
             # Skip
             continue
-        # Make sure to add keys for all buttons
+
+        # Make sure to add keys for all buttons and do the parsing
         for index, btn in enumerate(msg['buttons']):
             btn['text_key'] = f"{msg['text_key']}-btn{index}"
+            text, _case, cmd = get_text(btn['text'])
+            btn['text'] = text
+            btn['command'] = cmd
 
         # Add messages if didn't skip
         _tmp.append(msg)
