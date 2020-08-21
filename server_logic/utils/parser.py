@@ -38,21 +38,26 @@ def parse_api(raw_data):
     _tmp = list()
     # Merging all actions in one loop
     for msg in raw_data:
+        # [DEBUG]
+        # p(msg)
+        
         # Add our own values
         msg['free_answer'] = False
         # Allow to use both normal buttons and quickreplies
-        msg['buttons'] = [] if msg.get("buttons") is None else msg['buttons']
+        msg['buttons'] = msg.get("buttons") or []
         msg['multichoice'] = False
         # Generate text key for the translation
         msg['text_key'] = str(uuid.uuid4())[:8]
         msg['command'] = None
+        msg['expected_type'] = "text"
+        msg['text'] = msg.get("text") or ""
         # Message that is not quickreply
         if msg['type'] != "quickreplies":
             # Parse text
             text, _case, cmd = get_text(msg['text'])
             msg['text'] = text
-            if _case:
-                msg['command'] = cmd
+            msg['command'] = cmd
+
             _next = get_msg(raw_data, msg['next_message'])
 
             if _next:
@@ -61,16 +66,21 @@ def parse_api(raw_data):
                     msg['next_message'] = None
                     msg['buttons'] = _next['quickreplies']
                 # Handle user message as free answer
-                elif _next['type'] == "text" and _next['is_left_side'] is False:
+                elif _next['is_left_side'] is False:
                     msg['next_message'] = _next['next_message']
                     msg['free_answer'] = True
+                    
+                    if _next['type'] == "image":
+                        msg['expected_type'] = "image"
+                    elif _next['type'] == "location":
+                        msg['expected_type'] = "location"
         
         # Make sure to keep these statements separate
         # We handled quickreplies
         if msg['type'] == "quickreplies":
             # Skip
             continue
-        elif msg['type'] == "text" and msg['is_left_side'] is False:
+        elif msg['is_left_side'] is False:
             # Skip
             continue
 
