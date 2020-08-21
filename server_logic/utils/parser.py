@@ -22,7 +22,7 @@ command = re.compile(r"#([^\s]+)")
 def get_text(text: str) -> (str, bool, str):
     cmd = command.search(text)
     if cmd is not None:
-        cmd = cmd.group(1)
+        cmd = cmd.group(1).lower()
         # Remove the #command after finding and strip any amount of trailing "\n" or " "
         return text.replace(f"#{cmd}", "").strip("\n "), True, cmd
     else:
