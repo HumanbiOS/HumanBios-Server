@@ -180,8 +180,7 @@ class QAState(base_state.BaseState):
     # @Important: easy method to prepare context
     def set_data(self, context, question, avoid_buttons=None):
         # Change value from None to empty list for the "in" operator
-        if avoid_buttons is None:
-            avoid_buttons = []
+        avoid_buttons = avoid_buttons or []
 
         # Set according text
         context['request']['message']['text'] = self.strings[question["text_key"]]
@@ -199,6 +198,13 @@ class QAState(base_state.BaseState):
             context['request']['buttons'] = []
         # Always add edge buttons
         context['request']['buttons'] += [{"text": self.strings['back']}, {"text": self.strings['stop']}]
+        
+        # Add file if needed
+        media = question.get('image')
+        if media:
+            context['request']['has_file'] = True
+            context['request']['file'].append({"payload": media})
+
 
     # save expected buttons to avoid excidental collapses
     def get_button_keys(self, next_q):
@@ -206,6 +212,7 @@ class QAState(base_state.BaseState):
         # Add special buttons
         result += ['back', 'stop']
         return result
+
 
     # using button "text_key" value find corresponding button object in the question
     def get_next_btn_with_key(question, text_key):
