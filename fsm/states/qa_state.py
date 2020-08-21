@@ -94,7 +94,8 @@ class QAState(base_state.BaseState):
         # Handle multichoice
         elif curr_q['command'] == "multichoice":
             # Next question
-            if button == "next":
+            btn_obj = self.get_next_btn_with_key(curr_q, button.key)
+            if btn_obj['command'] == "next":
                 if curr_q["id"] in user['answers']['qa']['qa_results']:
                     # We override this so we dont have to change the code later
                     raw_answer = user['answers']['qa']['qa_results'][curr_q["id"]]
@@ -205,3 +206,15 @@ class QAState(base_state.BaseState):
         # Add special buttons
         result += ['back', 'stop']
         return result
+
+    # using button "text_key" value find corresponding button object in the question
+    def get_next_btn_with_key(question, text_key):
+        for btn in question['buttons']:
+            if btn['text_key'] == text_key:
+                return btn
+        else:
+            _ids = ", ".join([f"\"{b['text_key']}\"" for b in question['buttons']])
+            raise ValueError(
+                f"Did not find any corresponding key in the question[id={question['id']}] " \
+                f"with buttons (keys): {_ids}. Your passed text_key was \"{text_key}\""
+            )
