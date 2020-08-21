@@ -16,11 +16,14 @@ def get_msg(data, id_):
        if message["id"] == id_:
             return message
 # Command pattern
-command = re.compile(r"#([^\s]+)")
+command = re.compile(r"(?:^|[^\\])#([^\s]+)")
 
 # Parse text for special `#commands`
 def get_text(text: str) -> (str, bool, str):
     cmd = command.search(text)
+    # After doing search, fix all actual hashtags:
+    #     change all '\#' to '#'
+    text = text.replace(r"\#", "#")
     if cmd is not None:
         cmd = cmd.group(1).lower()
         # Remove the #command after finding and strip any amount of trailing "\n" or " "
