@@ -34,7 +34,7 @@
   "coughing_wrong_answer": "We sorry, this is not a supported media type. Please try sending a voice note/message or a video recording.",
   "qa_intro": "This bot will ask a series of question now which will help understanding your case. First one: ",
   "qa_error": "I am sorry, you need to press one of the buttons.",
-  "qa_multi": "Since this is a multiple choice question, please press more options if you want to. Otherwise, press {0}",
+  "qa_multi": "Since this is a multiple choice question, please press more options if you want to. Otherwise, press {}",
   "qa_finish": "Finish",
   "forward_doctor": "We have forwarded your request and come back to you as soon as possible.",
   "forward_shrink": "We have forwarded your request and come back to you as soon as possible.",

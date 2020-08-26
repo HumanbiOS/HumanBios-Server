@@ -1,37 +1,12 @@
+from server_logic.utils.parser import get_next, get_msg
 from server_logic.definitions import Context
-from db import ServiceTypes, User
-from datetime import timedelta
+from datetime import timedelta, datetime
 from strings.items import TextPromise
+from db import ServiceTypes, User
 from . import base_state
 import asyncio
 import logging
-
-# Find message by id
-def get_msg(data, id_):
-    for message in data:
-        if message["id"] == id_:
-            return message
-
-# Get first message; next message; next message by the answer
-def get_next(items, curr_id=None, answer=None):
-    if curr_id is None:
-        for _msg in items:
-            if _msg['is_first_message']:
-                return _msg
-        else:
-            raise ValueError("Somehow we dont have first message?")
-    else:
-        curr_ = get_msg(items, curr_id)
-
-    if curr_['buttons']:
-        # find button
-        for btn in curr_['buttons']:
-            if answer == btn['text_key']:
-                id_ = btn.get("next_message")
-                if id_ is not None:
-                    return get_msg(items, id_)
-    elif curr_:
-        return get_msg(items, curr_["next_message"])
+import copy
 
 
 class QAState(base_state.BaseState):
@@ -92,10 +67,10 @@ class QAState(base_state.BaseState):
             else:
                 return base_state.GO_TO_STATE("LanguageDetectionState")
         # Handle multichoice
-        elif curr_q['command'] == "multichoice":
+        elif "multichoice" in curr_q['commands']:
             # Next question
             btn_obj = self.get_next_btn_with_key(curr_q, button.key)
-            if btn_obj['command'] == "next":
+            if "next" in btn_obj['commands']:
                 if curr_q["id"] in user['answers']['qa']['qa_results']:
                     # We override this so we dont have to change the code later
                     raw_answer = user['answers']['qa']['qa_results'][curr_q["id"]]
@@ -129,16 +104,40 @@ class QAState(base_state.BaseState):
                 user['answers']['qa']['multichoice_cache'][curr_q['id']].append(button.key)
                 # Send special message with buttons that left
                 self.set_data(context, curr_q, avoid_buttons=user['answers']['qa']['multichoice_cache'][curr_q['id']])
-                context['request']['message']['text'] = self.strings['qa_multi'].format(next_button)
+                context['request']['message']['text'] = self.strings['qa_multi'].format(btn_obj['text'])
                 self.send(user, context)
                 return base_state.OK
-
+        # Handle reminder
+        elif "remind" in curr_q["commands"]:
+            hours = curr_q["command_args"].get("in")
+            name = curr_q["command_args"].get("remind")
+            error = False
+            
+            if hours and name:
+                s = round(float(hours) * 60 * 60)
+                for item in self.bots_data:
+                    args = item['command_args']
+                    if args.get("reminder_entry") == name:
+                        user['context']['remind_q'] = item['id']
+                        break
+                else:
+                    raise ValueError(f"Broken \"remind\" command, required values: hours={hours}, name={name}.")
+                # TODO: custom changable checkback text
+                context['request']['message']['text'] = self.strings['checkback']
+                context['request']['has_buttons'] = True
+                context['request']['buttons_type'] = "text"
+                context['request']['buttons'] = [{"text": self.strings['yes']}, {"text": self.strings['no']}]
+                # Don't forget to deepcopy context internals for the sake of sanity
+                self.create_task(db.create_checkback, user, copy.deepcopy(context.__dict__['request']), timedelta(seconds=s))
+            else:
+                raise ValueError(f"Broken \"remind\" command, required values: hours={hours}, name={name}.")
+            
         next_q = get_next(self.bots_data, curr_q["id"], button)
         # Handle special cases
         #    no next message  ->  ->   \ 
         #                               -> assume wrong answer, repeat question
         #    special key "repeat"  ->  /
-        if next_q is None or next_q['command'] == "repeat":
+        if next_q is None or "repeat" in next_q['commands']:
             # Send invalid answer text
             context['request']['message']['text'] = self.strings['invalid_answer']
             context['request']['has_buttons'] = False
@@ -148,8 +147,8 @@ class QAState(base_state.BaseState):
             # Sent another message
             self.send(user, context)
             return base_state.OK
-        # Handle special comamnd #end
-        elif next_q['command'] == "end":
+        # Handle special command #end
+        elif "end" in next_q['commands']:
             # If message was just an "#end"
             if not next_q['text']:
                 return base_state.GO_TO_STATE("ENDState")
@@ -170,7 +169,7 @@ class QAState(base_state.BaseState):
         self.send(user, context)
 
         # Send multiple messages if special command is there
-        while next_q['command'] == "partial":
+        while "partial" in next_q['commands']:
             next_q = get_next(self.bots_data, curr_q["id"])
             self.set_data(context, next_q)
             self.send(user, context)
@@ -203,23 +202,24 @@ class QAState(base_state.BaseState):
         media = question.get('image')
         if media:
             context['request']['has_file'] = True
-            context['request']['file'].append({"payload": media})
+            context['request']['file'] = [{"payload": media}]
 
 
-    # save expected buttons to avoid excidental collapses
-    def get_button_keys(self, next_q):
-        result = [button["text_key"] for button in next_q["buttons"]]
+    # save expected buttons to avoid accidental collapses
+    def get_button_keys(self, q):
+        result = [button["text_key"] for button in q["buttons"]]
         # Add special buttons
         result += ['back', 'stop']
         return result
 
 
     # using button "text_key" value find corresponding button object in the question
-    def get_next_btn_with_key(question, text_key):
+    def get_next_btn_with_key(self, question, text_key):
         for btn in question['buttons']:
             if btn['text_key'] == text_key:
                 return btn
         else:
+            # Raise useful error
             _ids = ", ".join([f"\"{b['text_key']}\"" for b in question['buttons']])
             raise ValueError(
                 f"Did not find any corresponding key in the question[id={question['id']}] " \

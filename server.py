@@ -43,6 +43,8 @@ async def botsociety_webhook(request):
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=h) as resp:
             data = await resp.json()
+    # [DEBUG]
+    # logging.info(data)
     # Parse/Save data
     save_file(parse_api(data['messages']))
     # Make sure to reload in-memory data / cache

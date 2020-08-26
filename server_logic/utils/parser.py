@@ -1,5 +1,6 @@
 from settings import ROOT_PATH
 import datetime
+import logging
 import ujson
 import uuid
 import re
@@ -20,16 +21,29 @@ command = re.compile(r"(?:^|[^\\])#([^\s]+)")
 
 # Parse text for special `#commands`
 def get_text(text: str) -> (str, bool, str):
-    cmd = command.search(text)
+    cmds = command.findall(text)
+    result_cmds = list()
+    args = dict()
     # After doing search, fix all actual hashtags:
     #     change all '\#' to '#'
     text = text.replace(r"\#", "#")
-    if cmd is not None:
-        cmd = cmd.group(1).lower()
+    for cmd in cmds:
         # Remove the #command after finding and strip any amount of trailing "\n" or " "
-        return text.replace(f"#{cmd}", "").strip("\n "), True, cmd
-    else:
-        return text, False, None
+        text = text.replace(f"#{cmd}", "").strip("\n ")
+        # The actual command
+        if "=" in cmd:
+            result_cmds.append(cmd.split("=")[0].lower())
+        else:
+            result_cmds.append(cmd.lower())
+        # Add args
+        tmp = cmd.split(";")
+        for _tmp in tmp:
+            try:
+                key, value = _tmp.split("=")
+            except ValueError:
+                continue
+            args[key] = value
+    return text, bool(result_cmds), result_cmds, args
 
 
 # Parse Botsociety api data
@@ -48,15 +62,16 @@ def parse_api(raw_data):
         msg['multichoice'] = False
         # Generate text key for the translation
         msg['text_key'] = str(uuid.uuid4())[:8]
-        msg['command'] = None
+        msg['commands'] = []
         msg['expected_type'] = "text"
         msg['text'] = msg.get("text") or ""
         # Message that is not quickreply
         if msg['type'] != "quickreplies":
             # Parse text
-            text, _case, cmd = get_text(msg['text'])
+            text, _case, cmds, args = get_text(msg['text'])
             msg['text'] = text
-            msg['command'] = cmd
+            msg['commands'] = cmds
+            msg['command_args'] = args
 
             _next = get_msg(raw_data, msg['next_message'])
 
@@ -87,12 +102,16 @@ def parse_api(raw_data):
         # Make sure to add keys for all buttons and do the parsing
         for index, btn in enumerate(msg['buttons']):
             btn['text_key'] = f"{msg['text_key']}-btn{index}"
-            text, _case, cmd = get_text(btn['text'])
+            text, _case, cmds, args = get_text(btn['text'])
             btn['text'] = text
-            btn['command'] = cmd
+            btn['commands'] = cmds
+            btn['command_args'] = args
 
         # Add messages if didn't skip
         _tmp.append(msg)
+    # [DEBUG]
+    # logging.info(w(_tmp))
+    logging.info("Parsed new flow from Botsociety.")
     return _tmp
 
 
@@ -100,8 +119,9 @@ def parse_api(raw_data):
 def save_file(data, path=None):
     # Default path
     if path is None:
-        path = os.path.abspath(os.path.join(ROOT_PATH, "archive"))
-
+        path = os.path.abspath(os.path.join("archive"))
+    # [DEBUG]
+    logging.info(f"Saving to path: {path}")
     # Prepare path directory if needed
     if not os.path.exists(path):
         os.mkdir(path)
@@ -128,3 +148,27 @@ def save_file(data, path=None):
     for fp in history[4:]:
         fp = os.path.join(path, fp)
         os.remove(fp)
+
+    logging.info("Updated latest file / archived files.")
+
+
+# Get first message; next message; next message by the answer
+def get_next(items, curr_id=None, answer=None):
+    if curr_id is None:
+        for _msg in items:
+            if _msg['is_first_message']:
+                return _msg
+        else:
+            raise ValueError("Somehow we dont have first message?")
+    else:
+        curr_ = get_msg(items, curr_id)
+
+    if curr_['buttons']:
+        # find button
+        for btn in curr_['buttons']:
+            if answer == btn['text_key']:
+                id_ = btn.get("next_message")
+                if id_ is not None:
+                    return get_msg(items, id_)
+    elif curr_:
+        return get_msg(items, curr_["next_message"])

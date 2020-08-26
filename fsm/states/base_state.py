@@ -271,6 +271,35 @@ class BaseState(object):
                 return raw_text[:i1] == promise.value[:i1] and raw_text[-i2 + 1:] == promise.value[-i2 + 1:]
 
 
+    # @Important: easy method to prepare context
+    def set_data(self, context: Context, question: dict, avoid_buttons: list = None):
+        # Change value from None to empty list for the "in" operator
+        avoid_buttons = avoid_buttons or []
+ 
+        # Set according text
+        context['request']['message']['text'] = self.strings[question["text_key"]]
+ 
+        # Always have buttons
+        context['request']['has_buttons'] = True
+        context['request']['buttons_type'] = "text"
+        # If not a free question -> add it's buttons
+        if not question["free_answer"]:
+            context['request']['buttons'] = [
+                {"text": self.strings[button["text_key"]]} for button in question["buttons"] \
+                if button["text_key"] not in avoid_buttons
+            ]
+        else:
+            context['request']['buttons'] = []
+        # Always add edge buttons
+        context['request']['buttons'] += [{"text": self.strings['back']}, {"text": self.strings['stop']}]
+ 
+        # Add file if needed
+        media = question.get('image')
+        if media:
+            context['request']['has_file'] = True
+            context['request']['file'] = [{"payload": media}]
+
+
     # @Important: 1) find better way with database
     # @Important: 2) What if we do it in non blocking asyncio.create_task (?)
     # @Important:    But on the other hand, we can't relay on the file status

@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     volumes:
     - ./log:/app/log
-    - ./archive:/app/archive
+    - ./archive:/usr/src/app/archive
 
 networks:
   default:

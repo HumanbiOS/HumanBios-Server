@@ -293,14 +293,14 @@ class Database:
     def now(self) -> datetime.datetime:
         return datetime.datetime.now(self.TZ)
 
-    async def create_checkback(self, user: User, context: Context, send_in: datetime.timedelta):
+    async def create_checkback(self, user: User, context: dict, send_in: datetime.timedelta):
         """Creates Checkback item in the according table"""
         self.CheckBacks.put_item(
             Item={
                 "id": str(uuid.uuid4()),
                 "server_mac": str(uuid.getnode()),
-                "identity": context['request']['user']['identity'],
-                "context": json.dumps(context.__dict__['request'], default=custom_default),
+                "identity": context['user']['identity'],
+                "context": json.dumps(context, default=custom_default),
                 "send_at": (self.now() + send_in).isoformat()
             }
         )

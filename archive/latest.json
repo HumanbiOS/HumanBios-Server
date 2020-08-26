@@ -1,10 +1,10 @@
 [
  {
-  "id": "5f32bfee078b8282667db5db",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T16:00:06.732Z",
-  "created_at": "2020-08-11T15:57:34.318Z",
+  "id": "5f3f9ba5f41ee0b06fe79bdd",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:04:39.812Z",
+  "created_at": "2020-08-21T10:02:13.934Z",
   "is_left_side": true,
   "text": "With your consent, we will store and analyze your use of the HumanBios App for scientific research and to improve your experience when using the HumanBios App. \n\nIf you give your consent, we will contact you over the medium where you gave your permission for scientific research and to improve your experience when using the Human Bios App.\n\nFor further information, visit the privacy policy at https:\/\/bit.ly\/HumanBios_privacy_note.\n\nIf you have read and give your consent to the Privacy Note press 'accept'.",
   "type": "text",
@@ -22,129 +22,51 @@
     "text": "Accept",
     "text_with_variables": "Accept",
     "is_next_message_linked": false,
-    "next_message": "5f32cc00078b82b1137dc0b8",
-    "text_key": "2aabb83a-btn0"
+    "next_message": "5f3f9ba5f41ee030ade79be1",
+    "text_key": "6bf47327-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "Reject",
     "text_with_variables": "Reject",
     "is_next_message_linked": false,
-    "next_message": "5f32cc00078b8234b77dc0b6",
-    "text_key": "2aabb83a-btn1"
+    "next_message": "5f3f9ba5f41ee09d67e79bdf",
+    "text_key": "6bf47327-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "2aabb83a",
-  "command": null
- },
- {
-  "id": "5f32cc00078b8234b77dc0b6",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T19:58:48.412Z",
-  "created_at": "2020-08-11T16:49:04.693Z",
-  "is_left_side": true,
-  "text": "Okay, please tell your friends about humanbios!",
-  "type": "text",
-  "next_message": null,
-  "is_next_message_linked": false,
-  "prev_message": "5f32bfee078b8266307db5dc",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Okay, please tell your friends about humanbios!\n\n#end",
-  "intent": "default-intent-12",
-  "free_answer": false,
-  "buttons": [
+  "text_key": "6bf47327",
+  "commands": [
 
   ],
-  "multichoice": false,
-  "text_key": "26d397b0",
-  "command": "end"
- },
- {
-  "id": "5f32cc00078b82b1137dc0b8",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T16:57:16.051Z",
-  "created_at": "2020-08-11T16:49:04.693Z",
-  "is_left_side": true,
-  "text": "Hello! Thank you for contacting Human Bios. Before we ask you a couple of self-diagnosis questions, take the opportunity to tell us your story, if you would like to.\n\nWhere are you right now? How are your friends, your family? Do you feel safe?",
-  "type": "text",
-  "next_message": "5f32cc00078b8210757dc0ba",
-  "is_next_message_linked": false,
-  "prev_message": "5f32bfee078b8266307db5dc",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Hello! Thank you for contacting Human Bios. Before we ask you a couple of self-diagnosis questions, take the opportunity to tell us your story, if you would like to.\n\nWhere are you right now? How are your friends, your family? Do you feel safe?\n\n#story",
-  "intent": "default-intent-1",
-  "free_answer": true,
-  "buttons": [
+  "expected_type": "text",
+  "command_args": {
 
-  ],
-  "multichoice": false,
-  "text_key": "ee18c465",
-  "command": "story"
+  }
  },
  {
-  "id": "5f32cc00078b8254837dc0be",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T18:54:24.899Z",
-  "created_at": "2020-08-11T16:49:04.694Z",
-  "is_left_side": true,
-  "text": "What is your current living situation?",
-  "type": "text",
-  "next_message": null,
-  "is_next_message_linked": false,
-  "prev_linked_messages": [
-   "5f32cc00078b826df97dc0bd",
-   "5f32cc00078b826df97dc0bd",
-   "5f32d708078b824dc97dcf60",
-   "5f32d708078b824dc97dcf60",
-   "5f32cc00078b826df97dc0bd",
-   "5f32cc00078b826df97dc0bd"
-  ],
-  "prev_message": "5f32cc00078b826df97dc0bd",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "What is your current living situation?",
-  "intent": "default-intent-3",
-  "free_answer": false,
-  "buttons": [
-   {
-    "text": "Living alone",
-    "text_with_variables": "Living alone",
-    "is_next_message_linked": false,
-    "next_message": "5f32ce38078b82605c7dc2a4",
-    "text_key": "8e5edaa4-btn0"
-   },
-   {
-    "text": "Living together with family, in a shared flat, or in a supervised community facility",
-    "text_with_variables": "Living together with family, in a shared flat, or in a supervised community facility",
-    "is_next_message_linked": true,
-    "next_message": "5f32ce38078b82605c7dc2a4",
-    "text_key": "8e5edaa4-btn1"
-   }
-  ],
-  "multichoice": false,
-  "text_key": "8e5edaa4",
-  "command": null
- },
- {
-  "id": "5f32cc00078b8210757dc0ba",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T16:58:33.825Z",
-  "created_at": "2020-08-11T16:49:04.693Z",
+  "id": "5f3f9ba5f41ee01487e79be3",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:37:30.439Z",
+  "created_at": "2020-08-21T10:02:13.935Z",
   "is_left_side": true,
   "text": "Are you looking for medical assistance? If you would just like to talk to someone press no.",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
-  "prev_message": "5f32cc00078b82797b7dc0b9",
+  "prev_message": "5f3f9ba5f41ee02ec7e79be2",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
@@ -156,37 +78,204 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "next_message": "5f32cc00078b82d68a7dc0bc",
-    "text_key": "bd12e781-btn0"
+    "next_message": "5f3fa3b3f41ee06e5ee7a18d",
+    "text_key": "72e98097-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": false,
-    "next_message": "5f32ce38078b824fc07dc2a6",
-    "text_key": "bd12e781-btn1"
+    "next_message": "5f3f9ba5f41ee05029e79be5",
+    "text_key": "72e98097-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "bd12e781",
-  "command": null
+  "text_key": "72e98097",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f32cc00078b82d68a7dc0bc",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T17:00:56.898Z",
-  "created_at": "2020-08-11T16:49:04.694Z",
+  "id": "5f3f9ba5f41ee09d67e79bdf",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:34:39.534Z",
+  "created_at": "2020-08-21T10:02:13.934Z",
+  "is_left_side": true,
+  "text": "Okay, please tell your friends about humanbios!",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3f9ba5f41ee0b3dee79bde",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Okay, please tell your friends about humanbios!\n\n#end",
+  "intent": "default-intent-33",
+  "free_answer": false,
+  "buttons": [
+
+  ],
+  "multichoice": false,
+  "text_key": "284038c6",
+  "commands": [
+   "end"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3f9ba5f41ee030ade79be1",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:36:35.974Z",
+  "created_at": "2020-08-21T10:02:13.934Z",
+  "is_left_side": true,
+  "text": "Hello! Thank you for contacting Human Bios. Before we ask you a couple of self-diagnosis questions, take the opportunity to tell us your story, if you would like to.\n\nWhere are you right now? How are your friends, your family? Do you feel safe?",
+  "type": "text",
+  "next_message": "5f3f9ba5f41ee01487e79be3",
+  "is_next_message_linked": false,
+  "prev_message": "5f3f9ba5f41ee0b3dee79bde",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Hello! Thank you for contacting Human Bios. Before we ask you a couple of self-diagnosis questions, take the opportunity to tell us your story, if you would like to.\n\nWhere are you right now? How are your friends, your family? Do you feel safe?\n\n#story",
+  "intent": "default-intent-1",
+  "free_answer": true,
+  "buttons": [
+
+  ],
+  "multichoice": false,
+  "text_key": "a3227517",
+  "commands": [
+   "story"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3f9ba5f41ee05029e79be5",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:39:03.973Z",
+  "created_at": "2020-08-21T10:02:13.935Z",
+  "is_left_side": true,
+  "text": "Okay. Are you feeling stressed or anxious?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3f9ba5f41ee03088e79be4",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Okay. Are you feeling stressed or anxious?",
+  "intent": "default-intent-30",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa3b3f41ee03454e7a18c",
+    "text_key": "23627541-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa3b3f41ee0a6f0e7a18b",
+    "text_key": "23627541-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "23627541",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa3b3f41ee03454e7a18c",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:40:01.203Z",
+  "created_at": "2020-08-21T10:36:35.802Z",
+  "is_left_side": true,
+  "text": "#TODO",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3f9ba5f41ee0395ce79be6",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "\\#TODO\n\n#End",
+  "intent": "default-intent-31",
+  "free_answer": false,
+  "buttons": [
+
+  ],
+  "multichoice": false,
+  "text_key": "c74caf90",
+  "commands": [
+   "end"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa3b3f41ee06e5ee7a18d",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-26T22:08:52.214Z",
+  "created_at": "2020-08-21T10:36:35.802Z",
   "is_left_side": true,
   "text": "How old are you?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
-  "prev_message": "5f32cc00078b82503a7dc0bb",
+  "prev_message": "5f3f9ba5f41ee03088e79be4",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
-  "text_with_variables": "How old are you?",
+  "text_with_variables": "How old are you?\n\n#reminder_entry=TestEntry",
   "intent": "default-intent-2",
   "free_answer": false,
   "buttons": [
@@ -194,102 +283,193 @@
     "text": "Under 40",
     "text_with_variables": "Under 40",
     "is_next_message_linked": false,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4acf4f2c-btn0"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "938eb8ad-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "40-50",
     "text_with_variables": "40-50",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4acf4f2c-btn1"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "938eb8ad-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "51-60",
     "text_with_variables": "51-60",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4acf4f2c-btn2"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "938eb8ad-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "61-70",
     "text_with_variables": "61-70",
     "is_next_message_linked": false,
-    "next_message": "5f32ce38078b82e95b7dc2a8",
-    "text_key": "4acf4f2c-btn3"
+    "next_message": "5f3fa3b3f41ee05e5ce7a18f",
+    "text_key": "938eb8ad-btn3",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "71-80",
     "text_with_variables": "71-80",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4acf4f2c-btn4"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "938eb8ad-btn4",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "Over 80",
     "text_with_variables": "Over 80",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "4acf4f2c-btn5"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "938eb8ad-btn5",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "4acf4f2c",
-  "command": null
+  "text_key": "938eb8ad",
+  "commands": [
+   "reminder_entry"
+  ],
+  "expected_type": "text",
+  "command_args": {
+   "reminder_entry": "TestEntry"
+  }
  },
  {
-  "id": "5f32ce38078b82e95b7dc2a8",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T17:38:56.398Z",
-  "created_at": "2020-08-11T16:58:32.790Z",
+  "id": "5f3fa3b3f41ee05e5ce7a18f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:42:09.574Z",
+  "created_at": "2020-08-21T10:36:35.802Z",
   "is_left_side": true,
   "text": "Are you 65 years old or older?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
-  "prev_message": "5f32cc00078b826df97dc0bd",
+  "prev_message": "5f3fa3b3f41ee09620e7a18e",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
   "text_with_variables": "Are you 65 years old or older?",
-  "intent": "default-intent-10",
+  "intent": "default-intent-29",
   "free_answer": false,
   "buttons": [
    {
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "999cb404-btn0"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "bfc27a5a-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
-    "next_message": "5f32cc00078b8254837dc0be",
-    "text_key": "999cb404-btn1"
+    "next_message": "5f3fa46af41ee02c85e7a21f",
+    "text_key": "bfc27a5a-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "999cb404",
-  "command": null
+  "text_key": "bfc27a5a",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f32ce38078b82605c7dc2a4",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T17:40:34.976Z",
-  "created_at": "2020-08-11T16:58:32.790Z",
+  "id": "5f3fa3b3f41ee0a6f0e7a18b",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:39:39.131Z",
+  "created_at": "2020-08-21T10:36:35.802Z",
+  "is_left_side": true,
+  "text": "Glad to hear, feel free to reach out if your situation changes.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3f9ba5f41ee0395ce79be6",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Glad to hear, feel free to reach out if your situation changes.\n\n#end",
+  "intent": "default-intent-32",
+  "free_answer": false,
+  "buttons": [
+
+  ],
+  "multichoice": false,
+  "text_key": "1b750b14",
+  "commands": [
+   "end"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa46af41ee03d16e7a221",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:53:12.262Z",
+  "created_at": "2020-08-21T10:39:38.944Z",
   "is_left_side": true,
   "text": "At least once a week, do you privately care for people with age-related conditions, chronic illnesses, or frailty?\n\nCare services or support that you provide in connection with your professional activity isn't meant.",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
   "prev_linked_messages": [
-   "5f32cc00078b82f64d7dc0bf"
+   "5f3fa46af41ee059aee7a220"
   ],
-  "prev_message": "5f32cc00078b82f64d7dc0bf",
+  "prev_message": "5f3fa46af41ee059aee7a220",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
@@ -301,121 +481,180 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "next_message": "5f32d708078b82216d7dcf61",
-    "text_key": "27493126-btn0"
+    "next_message": "5f3fa501f41ee084d5e7a2b9",
+    "text_key": "8f198b7c-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
-    "next_message": "5f32d708078b82216d7dcf61",
-    "text_key": "27493126-btn1"
+    "next_message": "5f3fa501f41ee084d5e7a2b9",
+    "text_key": "8f198b7c-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "27493126",
-  "command": null
+  "text_key": "8f198b7c",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f32ce38078b824fc07dc2a6",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-11T17:37:19.721Z",
-  "created_at": "2020-08-11T16:58:32.790Z",
+  "id": "5f3fa46af41ee02c85e7a21f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:45:10.647Z",
+  "created_at": "2020-08-21T10:39:38.944Z",
   "is_left_side": true,
-  "text": "Okay. Are you feeling stressed or anxious?",
+  "text": "What is your current living situation?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
-  "prev_message": "5f32cc00078b82503a7dc0bb",
+  "prev_linked_messages": [
+   "5f3fa3b3f41ee09620e7a18e",
+   "5f3fa3b3f41ee09620e7a18e",
+   "5f3fa46af41ee0bcd9e7a21e",
+   "5f3fa46af41ee0bcd9e7a21e",
+   "5f3fa3b3f41ee09620e7a18e",
+   "5f3fa3b3f41ee09620e7a18e"
+  ],
+  "prev_message": "5f3fa3b3f41ee09620e7a18e",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
-  "text_with_variables": "Okay. Are you feeling stressed or anxious?",
-  "intent": "default-intent-11",
+  "text_with_variables": "What is your current living situation?",
+  "intent": "default-intent-3",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Living alone",
+    "text_with_variables": "Living alone",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa46af41ee03d16e7a221",
+    "text_key": "9ded6de4-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Living together with family, in a shared flat, or in a supervised community facility",
+    "text_with_variables": "Living together with family, in a shared flat, or in a supervised community facility",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa46af41ee03d16e7a221",
+    "text_key": "9ded6de4-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "9ded6de4",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa501f41ee0042ae7a2bd",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:57:31.579Z",
+  "created_at": "2020-08-21T10:42:09.395Z",
+  "is_left_side": true,
+  "text": "Are you pregnant?",
+  "type": "image",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fa501f41ee0192ee7a2bc"
+  ],
+  "prev_message": "5f3fa501f41ee0192ee7a2bc",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Are you pregnant?",
+  "intent": "default-intent-7",
+  "image": "https:\/\/s3.amazonaws.com\/botsociety.prod.us\/6bed46de4d1df66edb4a7f6d2845_pregnantjpg.jpg",
+  "size": "horizontal",
   "free_answer": false,
   "buttons": [
    {
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "text_key": "96cb52a0-btn0"
+    "next_message": "5f3fa7abf41ee0085be7a3eb",
+    "text_key": "64adba9e-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
-    "is_next_message_linked": false,
-    "text_key": "96cb52a0-btn1"
+    "is_next_message_linked": true,
+    "next_message": "5f3fa7abf41ee0085be7a3eb",
+    "text_key": "64adba9e-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "96cb52a0",
-  "command": null
+  "text_key": "64adba9e",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f32d708078b82216d7dcf61",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:19:19.004Z",
-  "created_at": "2020-08-11T17:36:08.026Z",
-  "is_left_side": true,
-  "text": "Do you work in one of the following areas?",
-  "type": "text",
-  "next_message": null,
-  "is_next_message_linked": false,
-  "prev_linked_messages": [
-   "5f32ce38078b8244dd7dc2a5"
-  ],
-  "prev_message": "5f32ce38078b8244dd7dc2a5",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Do you work in one of the following areas?",
-  "intent": "default-intent-5",
-  "free_answer": false,
-  "buttons": [
-   {
-    "text": "In the medical field",
-    "text_with_variables": "In the medical field",
-    "is_next_message_linked": false,
-    "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "f8f968f0-btn0"
-   },
-   {
-    "text": "In a community facility (school, day care center, university, home etc.)",
-    "text_with_variables": "In a community facility (school, day care center, university, home etc.)",
-    "is_next_message_linked": true,
-    "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "f8f968f0-btn1"
-   },
-   {
-    "text": "No, in none of the above",
-    "text_with_variables": "No, in none of the above",
-    "is_next_message_linked": true,
-    "next_message": "5f36875060b0ce3d61721554",
-    "text_key": "f8f968f0-btn2"
-   }
-  ],
-  "multichoice": false,
-  "text_key": "f8f968f0",
-  "command": null
- },
- {
-  "id": "5f36875060b0ce3d61721554",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:20:30.169Z",
-  "created_at": "2020-08-14T12:45:04.110Z",
+  "id": "5f3fa501f41ee09201e7a2bb",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:56:02.356Z",
+  "created_at": "2020-08-21T10:42:09.394Z",
   "is_left_side": true,
   "text": "Do you smoke?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
   "prev_linked_messages": [
-   "5f36875060b0ce29ef721553",
-   "5f36875060b0ce29ef721553"
+   "5f3fa501f41ee0820ce7a2ba",
+   "5f3fa501f41ee0820ce7a2ba"
   ],
-  "prev_message": "5f36875060b0ce29ef721553",
+  "prev_message": "5f3fa501f41ee0820ce7a2ba",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
@@ -427,83 +666,130 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "next_message": "5f36acb6e64ff52ff87a61a9",
-    "text_key": "71ef09b4-btn0"
+    "next_message": "5f3fa501f41ee0042ae7a2bd",
+    "text_key": "21cc5c9f-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
-    "next_message": "5f36acb6e64ff52ff87a61a9",
-    "text_key": "71ef09b4-btn1"
+    "next_message": "5f3fa501f41ee0042ae7a2bd",
+    "text_key": "21cc5c9f-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "71ef09b4",
-  "command": null
+  "text_key": "21cc5c9f",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f36acb6e64ff52ff87a61a9",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:26:41.271Z",
-  "created_at": "2020-08-14T15:24:38.800Z",
+  "id": "5f3fa501f41ee084d5e7a2b9",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:54:45.398Z",
+  "created_at": "2020-08-21T10:42:09.394Z",
   "is_left_side": true,
-  "text": "Are you pregnant?",
-  "type": "image",
-  "next_message": null,
-  "is_next_message_linked": false,
-  "prev_linked_messages": [
-   "5f36875060b0ce2a21721555"
-  ],
-  "prev_message": "5f36875060b0ce2a21721555",
-  "show_time": 1500,
-  "is_first_message": false,
-  "deleted": false,
-  "text_with_variables": "Are you pregnant?",
-  "intent": "default-intent-7",
-  "image": "https:\/\/s3.amazonaws.com\/botsociety.prod.us\/11909a0b8bf_pregnantjpg.jpg",
-  "size": "horizontal",
-  "free_answer": false,
-  "buttons": [
-   {
-    "text": "Yes",
-    "text_with_variables": "Yes",
-    "is_next_message_linked": false,
-    "next_message": "5f36adb3f2243efe6d543fa8",
-    "text_key": "bec97ebf-btn0"
-   },
-   {
-    "text": "No",
-    "text_with_variables": "No",
-    "is_next_message_linked": true,
-    "next_message": "5f36adb3f2243efe6d543fa8",
-    "text_key": "bec97ebf-btn1"
-   }
-  ],
-  "multichoice": false,
-  "text_key": "bec97ebf",
-  "command": null
- },
- {
-  "id": "5f36adb3f2243efe6d543fa8",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:35:13.927Z",
-  "created_at": "2020-08-14T15:28:51.365Z",
-  "is_left_side": true,
-  "text": "Have you had close contact with a confirmed case?\n\nClose contact with a confirmed case means:\n* Face-to-face contact for longer than 15 minutes\n* Direct, physical contact (touching, shaking hands, kissing)\n* Being within 1.5 meters of the person for more than 15 minutes\n* Contact or exchange of body fluids\n* Living in the same apartment\n\nChoose \"No\" if you have worn adequate protective measures (mask, smock) on contact.",
+  "text": "Do you work in one of the following areas?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
   "prev_linked_messages": [
-   "5f36acb6e64ff5f08b7a61aa"
+   "5f3fa46af41ee03cf1e7a222"
   ],
-  "prev_message": "5f36acb6e64ff5f08b7a61aa",
+  "prev_message": "5f3fa46af41ee03cf1e7a222",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
-  "text_with_variables": "Have you had close contact with a confirmed case?\n\nClose contact with a confirmed case means:\n* Face-to-face contact for longer than 15 minutes\n* Direct, physical contact (touching, shaking hands, kissing)\n* Being within 1.5 meters of the person for more than 15 minutes\n* Contact or exchange of body fluids\n* Living in the same apartment\n\nChoose \"No\" if you have worn adequate protective measures (mask, smock) on contact.",
+  "text_with_variables": "Do you work in one of the following areas?",
+  "intent": "default-intent-5",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "In the medical field",
+    "text_with_variables": "In the medical field",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa501f41ee09201e7a2bb",
+    "text_key": "92f3b650-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "In a community facility (school, day care center, university, home etc.)",
+    "text_with_variables": "In a community facility (school, day care center, university, home etc.)",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa501f41ee09201e7a2bb",
+    "text_key": "92f3b650-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No, in none of the above",
+    "text_with_variables": "No, in none of the above",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa501f41ee09201e7a2bb",
+    "text_key": "92f3b650-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "92f3b650",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa7abf41ee0085be7a3eb",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T10:59:07.800Z",
+  "created_at": "2020-08-21T10:53:31.876Z",
+  "is_left_side": true,
+  "text": "Have you had close contact with a confirmed case?\n\nClose contact with a confirmed case means:\n- Face-to-face contact for longer than 15 minutes.\n- Direct, physical contact (touching, shaking hands, kissing).\n- Being within 1.5 meters of the person for more than 15 minutes.\n- Contact with or exchange of body fluids.\n- Living in the same apartment.\n\nChoose \"No\" if you have worn adequate protective measures (mask, smock) on contact.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fa7abf41ee03650e7a3ea"
+  ],
+  "prev_message": "5f3fa7abf41ee03650e7a3ea",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you had close contact with a confirmed case?\n\nClose contact with a confirmed case means:\n- Face-to-face contact for longer than 15 minutes.\n- Direct, physical contact (touching, shaking hands, kissing).\n- Being within 1.5 meters of the person for more than 15 minutes.\n- Contact with or exchange of body fluids.\n- Living in the same apartment.\n\nChoose \"No\" if you have worn adequate protective measures (mask, smock) on contact.",
   "intent": "default-intent-8",
   "free_answer": false,
   "buttons": [
@@ -511,36 +797,274 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "next_message": "5f36adb3f2243e16e0543faa",
-    "text_key": "a277c29e-btn0"
+    "next_message": "5f3fa7abf41ee0863ae7a3ed",
+    "text_key": "1aa0023c-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": true,
-    "next_message": "5f36adb3f2243ed240543fac",
-    "text_key": "a277c29e-btn1"
+    "next_message": "5f3fa89bf41ee07a3ee7a48b",
+    "text_key": "1aa0023c-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "a277c29e",
-  "command": null
+  "text_key": "1aa0023c",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f36adb3f2243ed240543fac",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:44:29.281Z",
-  "created_at": "2020-08-14T15:28:51.366Z",
+  "id": "5f3fa7abf41ee0863ae7a3ed",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T11:00:48.088Z",
+  "created_at": "2020-08-21T10:53:31.876Z",
+  "is_left_side": true,
+  "text": "What day was the last contact?",
+  "type": "text",
+  "next_message": "5f3fa89bf41ee07a3ee7a48b",
+  "is_next_message_linked": false,
+  "prev_message": "5f3fa7abf41ee0c8dde7a3ec",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "What day was the last contact?",
+  "intent": "default-intent-9",
+  "free_answer": true,
+  "buttons": [
+
+  ],
+  "multichoice": false,
+  "text_key": "71755115",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa89bf41ee0821ae7a48d",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T11:06:44.068Z",
+  "created_at": "2020-08-21T10:57:31.380Z",
+  "is_left_side": true,
+  "text": "What was the highest temperature, approx.?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fa98ef41ee02dd1e7a537"
+  ],
+  "prev_message": "5f3fa89bf41ee0cc18e7a48c",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "What was the highest temperature, approx.?",
+  "intent": "default-intent-10",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "38°C",
+    "text_with_variables": "38°C",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "39°C",
+    "text_with_variables": "39°C",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "40°C",
+    "text_with_variables": "40°C",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "41°C",
+    "text_with_variables": "41°C",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn3",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "42°C",
+    "text_with_variables": "42°C",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn4",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "More than 42°C",
+    "text_with_variables": "More than 42°C",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn5",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "508c2118-btn6",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "508c2118",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa89bf41ee0719ce7a48f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-26T20:24:43.895Z",
+  "created_at": "2020-08-21T10:57:31.380Z",
+  "is_left_side": true,
+  "text": "Have you had chills in the past 24 hours?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fa98ef41ee02dd1e7a537",
+   "5f3fa89bf41ee0ddabe7a48e",
+   "5f3fa89bf41ee0ddabe7a48e",
+   "5f3fa89bf41ee0ddabe7a48e",
+   "5f3fa89bf41ee0ddabe7a48e",
+   "5f3fa89bf41ee0ddabe7a48e",
+   "5f3fa89bf41ee0ddabe7a48e"
+  ],
+  "prev_message": "5f3fa89bf41ee0ddabe7a48e",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you had chills in the past 24 hours?",
+  "intent": "default-intent-11",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3fa98ef41ee08078e7a538",
+    "text_key": "d17d973b-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa98ef41ee08078e7a538",
+    "text_key": "d17d973b-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "d17d973b",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa89bf41ee07a3ee7a48b",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T11:02:05.030Z",
+  "created_at": "2020-08-21T10:57:31.379Z",
   "is_left_side": true,
   "text": "Have you had a fever (over 38°C) in the past 24 hours?",
   "type": "text",
   "next_message": null,
   "is_next_message_linked": false,
   "prev_linked_messages": [
-   "5f36adb3f2243e1e60543fa9"
+   "5f3fa7abf41ee0c8dde7a3ec"
   ],
-  "prev_message": "5f36adb3f2243e286e543fab",
+  "prev_message": "5f3fa7abf41ee07403e7a3ee",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
@@ -552,42 +1076,1078 @@
     "text": "Yes",
     "text_with_variables": "Yes",
     "is_next_message_linked": false,
-    "text_key": "da0c413b-btn0"
+    "next_message": "5f3fa89bf41ee0821ae7a48d",
+    "text_key": "88f42d1f-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    },
    {
     "text": "No",
     "text_with_variables": "No",
     "is_next_message_linked": false,
-    "text_key": "da0c413b-btn1"
+    "next_message": "5f3fa98ef41ee0308be7a536",
+    "text_key": "88f42d1f-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
    }
   ],
   "multichoice": false,
-  "text_key": "da0c413b",
-  "command": null
+  "text_key": "88f42d1f",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  },
  {
-  "id": "5f36adb3f2243e16e0543faa",
-  "conversation_id": "5ea323570b9b3364a48a3e9b",
-  "persona_id": "5ea323570b9b33e3d98a3e9c",
-  "updated_at": "2020-08-14T15:36:41.871Z",
-  "created_at": "2020-08-14T15:28:51.366Z",
+  "id": "5f3fa98ef41ee08078e7a538",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:11:08.289Z",
+  "created_at": "2020-08-21T11:01:34.263Z",
   "is_left_side": true,
-  "text": "What day was the last contact?",
-  "type": "text",
-  "next_message": "5f36adb3f2243ed240543fac",
+  "text": "In the past 24 hours, have you had a persistent cough?\n\nThe question relates to cold symptoms and excludes chronic cough, seasonal or allergy-related cough.\nIf you have a chronic cough, compare your current coughing to your regular problems.",
+  "type": "image",
+  "next_message": null,
   "is_next_message_linked": false,
-  "prev_message": "5f36adb3f2243e1e60543fa9",
+  "prev_linked_messages": [
+   "5f3fa98ef41ee00d72e7a535"
+  ],
+  "prev_message": "5f3fa98ef41ee00d72e7a535",
   "show_time": 1500,
   "is_first_message": false,
   "deleted": false,
-  "text_with_variables": "What day was the last contact?",
-  "intent": "default-intent-9",
-  "free_answer": true,
+  "text_with_variables": "In the past 24 hours, have you had a persistent cough?\n\nThe question relates to cold symptoms and excludes chronic cough, seasonal or allergy-related cough.\nIf you have a chronic cough, compare your current coughing to your regular problems.",
+  "intent": "default-intent-12",
+  "image": "https:\/\/s3.amazonaws.com\/botsociety.prod.us\/16d44b43c93c9afdbc34065bba0_chest_coughjpg.jpg",
+  "size": "horizontal",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3faa78f41ee01660e7a575",
+    "text_key": "9be42b5f-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3faa78f41ee01660e7a575",
+    "text_key": "9be42b5f-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "9be42b5f",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fa98ef41ee0308be7a536",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T11:06:17.687Z",
+  "created_at": "2020-08-21T11:01:34.263Z",
+  "is_left_side": true,
+  "text": "Have you had a fever (over 38°C) in the past 4 days?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3fa89bf41ee0cc18e7a48c",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you had a fever (over 38°C) in the past 4 days?",
+  "intent": "default-intent-28",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0821ae7a48d",
+    "text_key": "8cc3ad22-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fa89bf41ee0719ce7a48f",
+    "text_key": "8cc3ad22-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "8cc3ad22",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3faa78f41ee01660e7a575",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:13:07.373Z",
+  "created_at": "2020-08-21T11:05:28.897Z",
+  "is_left_side": true,
+  "text": "In the past 24 hours, have you had a runny nose?\n\nThe question relates to cold symptoms and excludes chronic runny nose, seasonal or allergy-related runny nose. If you have chronic sniffling, compare your current conditions with your existing problems.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fa98ef41ee0a5bbe7a539"
+  ],
+  "prev_message": "5f3fa98ef41ee0a5bbe7a539",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "In the past 24 hours, have you had a runny nose?\n\nThe question relates to cold symptoms and excludes chronic runny nose, seasonal or allergy-related runny nose. If you have chronic sniffling, compare your current conditions with your existing problems.",
+  "intent": "default-intent-13",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3faa78f41ee02677e7a577",
+    "text_key": "41f95a94-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3faa78f41ee02677e7a577",
+    "text_key": "41f95a94-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "41f95a94",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3faa78f41ee02677e7a577",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:16:05.688Z",
+  "created_at": "2020-08-21T11:05:28.897Z",
+  "is_left_side": true,
+  "text": "In the past 24 hours, have you had a sore throat?",
+  "type": "image",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3faa78f41ee017e2e7a576"
+  ],
+  "prev_message": "5f3faa78f41ee017e2e7a576",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "In the past 24 hours, have you had a sore throat?",
+  "intent": "default-intent-14",
+  "image": "https:\/\/s3.amazonaws.com\/botsociety.prod.us\/ff7c981811bec7f7b57a7001c0d5e7ede_sore_throatjpg.jpg",
+  "size": "horizontal",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3fb9e2f41ee0696fe7adcd",
+    "text_key": "cf49cb50-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fb9e2f41ee0696fe7adcd",
+    "text_key": "cf49cb50-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "cf49cb50",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fb9e2f41ee0bd0de7adcf",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:32:25.316Z",
+  "created_at": "2020-08-21T12:11:14.708Z",
+  "is_left_side": true,
+  "text": "With regard to all questions about symptoms: since when have you had the symptoms you specified?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fb9e2f41ee07653e7adce"
+  ],
+  "prev_message": "5f3fb9e2f41ee07653e7adce",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "With regard to all questions about symptoms: since when have you had the symptoms you specified?",
+  "intent": "default-intent-16",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't have any!",
+    "text_with_variables": "I don't have any!",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbb57f41ee0e7ace7ae9d",
+    "text_key": "88780fca-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "88780fca",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fb9e2f41ee0696fe7adcd",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:23:09.101Z",
+  "created_at": "2020-08-21T12:11:14.708Z",
+  "is_left_side": true,
+  "text": "In the past 24 hours, did you feel that you were more quickly out of breath than usual?\n\nChoose \"Yes\" if you:\n- Become breathless faster than usual or have difficulty breathing with light loads, such as a walk or climbing a short flight of stairs.\n- Experience difficulty breathing or shortness of breath when sitting or lying down.\n- Have a feeling of breathlessness\/shortness of breath when getting up from bed or a chair.\n\nIf you have chronic lung disease, compare your current breathing problems with your existing breathing problems.",
+  "type": "image",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3faa78f41ee0039ee7a578"
+  ],
+  "prev_message": "5f3faa78f41ee0039ee7a578",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "In the past 24 hours, did you feel that you were more quickly out of breath than usual?\n\nChoose \"Yes\" if you:\n- Become breathless faster than usual or have difficulty breathing with light loads, such as a walk or climbing a short flight of stairs.\n- Experience difficulty breathing or shortness of breath when sitting or lying down.\n- Have a feeling of breathlessness\/shortness of breath when getting up from bed or a chair.\n\nIf you have chronic lung disease, compare your current breathing problems with your existing breathing problems.",
+  "intent": "default-intent-15",
+  "image": "https:\/\/s3.amazonaws.com\/botsociety.prod.us\/a63fdb48a90_chest_painjpg.jpg",
+  "size": "horizontal",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3fb9e2f41ee0bd0de7adcf",
+    "text_key": "d9ec9433-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fb9e2f41ee0bd0de7adcf",
+    "text_key": "d9ec9433-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "d9ec9433",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbb57f41ee01f5ae7aea1",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T13:40:52.486Z",
+  "created_at": "2020-08-21T12:17:27.908Z",
+  "is_left_side": true,
+  "text": "Have you been diagnosed with heart disease by a doctor?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbb57f41ee0ae1be7aea0",
+   "5f3fbb57f41ee0ae1be7aea0"
+  ],
+  "prev_message": "5f3fbb57f41ee0ae1be7aea0",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you been diagnosed with heart disease by a doctor?",
+  "intent": "default-intent-19",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbf17f41ee05da3e7b15a",
+    "text_key": "5982c835-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf17f41ee05da3e7b15a",
+    "text_key": "5982c835-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf17f41ee05da3e7b15a",
+    "text_key": "5982c835-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "5982c835",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbb57f41ee032aae7ae9f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T13:35:32.257Z",
+  "created_at": "2020-08-21T12:17:27.908Z",
+  "is_left_side": true,
+  "text": "Have you been diagnosed with diabetes by a doctor?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbb57f41ee04af7e7ae9e",
+   "5f3fbb57f41ee04af7e7ae9e"
+  ],
+  "prev_message": "5f3fbb57f41ee04af7e7ae9e",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you been diagnosed with diabetes by a doctor?",
+  "intent": "default-intent-18",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbb57f41ee01f5ae7aea1",
+    "text_key": "9cc04e22-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbb57f41ee01f5ae7aea1",
+    "text_key": "9cc04e22-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbb57f41ee01f5ae7aea1",
+    "text_key": "9cc04e22-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "9cc04e22",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbb57f41ee0e7ace7ae9d",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T12:34:17.366Z",
+  "created_at": "2020-08-21T12:17:27.907Z",
+  "is_left_side": true,
+  "text": "Have you been diagnosed with chronic lung disease by a doctor?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fb9e2f41ee03d5ee7add1"
+  ],
+  "prev_message": "5f3fb9e2f41ee03851e7add0",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you been diagnosed with chronic lung disease by a doctor?",
+  "intent": "default-intent-17",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbb57f41ee032aae7ae9f",
+    "text_key": "92e7f56f-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbb57f41ee032aae7ae9f",
+    "text_key": "92e7f56f-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbb57f41ee032aae7ae9f",
+    "text_key": "92e7f56f-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "92e7f56f",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbf17f41ee055e0e7b15d",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T13:52:22.339Z",
+  "created_at": "2020-08-21T12:33:27.156Z",
+  "is_left_side": true,
+  "text": "Are you currently taking immunosuppressants?\n\nYou take or get immunosuppresives after an organ transplant, in the therapy of an autoimmune disease, or during chemotherapy.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbf17f41ee09b39e7b15b",
+   "5f3fbf17f41ee09b39e7b15b"
+  ],
+  "prev_message": "5f3fbf17f41ee09b39e7b15b",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Are you currently taking immunosuppressants?\n\nYou take or get immunosuppresives after an organ transplant, in the therapy of an autoimmune disease, or during chemotherapy.",
+  "intent": "default-intent-21",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbf90f41ee09aabe7b168",
+    "text_key": "8e2c7155-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf90f41ee09aabe7b168",
+    "text_key": "8e2c7155-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf90f41ee09aabe7b168",
+    "text_key": "8e2c7155-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "8e2c7155",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbf17f41ee05da3e7b15a",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T13:42:33.111Z",
+  "created_at": "2020-08-21T12:33:27.156Z",
+  "is_left_side": true,
+  "text": "Are you currently taking steroids?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbf17f41ee05edfe7b159",
+   "5f3fbf17f41ee05edfe7b159"
+  ],
+  "prev_message": "5f3fbf17f41ee05edfe7b159",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Are you currently taking steroids?",
+  "intent": "default-intent-20",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "I don't know",
+    "text_with_variables": "I don't know",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbf17f41ee055e0e7b15d",
+    "text_key": "402aa33a-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf17f41ee055e0e7b15d",
+    "text_key": "402aa33a-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf17f41ee055e0e7b15d",
+    "text_key": "402aa33a-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "402aa33a",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbf90f41ee09aabe7b168",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T13:55:33.177Z",
+  "created_at": "2020-08-21T12:35:28.464Z",
+  "is_left_side": true,
+  "text": "Have you been vaccinated against flu between October 2019 and today?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbf90f41ee08e79e7b167",
+   "5f3fbf90f41ee08e79e7b167"
+  ],
+  "prev_message": "5f3fbf90f41ee08e79e7b167",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Have you been vaccinated against flu between October 2019 and today?",
+  "intent": "default-intent-22",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Yes",
+    "text_with_variables": "Yes",
+    "is_next_message_linked": false,
+    "next_message": "5f3fbf90f41ee08bf3e7b16a",
+    "text_key": "3f72992d-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "No",
+    "text_with_variables": "No",
+    "is_next_message_linked": true,
+    "next_message": "5f3fbf90f41ee08bf3e7b16a",
+    "text_key": "3f72992d-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "3f72992d",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fbf90f41ee08bf3e7b16a",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T17:06:39.579Z",
+  "created_at": "2020-08-21T12:35:28.464Z",
+  "is_left_side": true,
+  "text": "Which of the following symptoms have you had in the past 24 hours? (multiple selection possible)\n\nThe question relates to acute or exacerbated symptoms and excludes chronic complaints or seasonal or allergic complaints. If you have a chronic illness, compare your current symptoms with your previous problems to answer the question.\n\nIf you don't have any of the symptoms, don't select an entry and continue by choosing the \"Next\" button.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f3fbf90f41ee0ffb1e7b169"
+  ],
+  "prev_message": "5f3fbf90f41ee0ffb1e7b169",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Which of the following symptoms have you had in the past 24 hours? (multiple selection possible)\n\nThe question relates to acute or exacerbated symptoms and excludes chronic complaints or seasonal or allergic complaints. If you have a chronic illness, compare your current symptoms with your previous problems to answer the question.\n\nIf you don't have any of the symptoms, don't select an entry and continue by choosing the \"Next\" button.\n\n#multichoice",
+  "intent": "default-intent-23",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Feeling tired or weak",
+    "text_with_variables": "Feeling tired or weak",
+    "is_next_message_linked": false,
+    "text_key": "c77c0450-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Body aches",
+    "text_with_variables": "Body aches",
+    "is_next_message_linked": false,
+    "text_key": "c77c0450-btn1",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Diarrhea",
+    "text_with_variables": "Diarrhea",
+    "is_next_message_linked": false,
+    "text_key": "c77c0450-btn2",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Headache",
+    "text_with_variables": "Headache",
+    "is_next_message_linked": false,
+    "text_key": "c77c0450-btn3",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Loss of taste and\/or smll",
+    "text_with_variables": "Loss of taste and\/or smll",
+    "is_next_message_linked": false,
+    "text_key": "c77c0450-btn4",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   },
+   {
+    "text": "Next",
+    "text_with_variables": "Next #next",
+    "is_next_message_linked": false,
+    "next_message": "5f3fdc30f41ee013bae7c488",
+    "text_key": "c77c0450-btn5",
+    "commands": [
+     "next"
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "c77c0450",
+  "commands": [
+   "multichoice"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fdc30f41ee0dd4de7c48c",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T19:46:45.830Z",
+  "created_at": "2020-08-21T14:37:36.761Z",
+  "is_left_side": true,
+  "text": "You can also take a picture of yourself right now and send it here. This will help other people to understand your situation.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f402376f41ee09e30e7ff20"
+  ],
+  "prev_message": "5f3fdc30f41ee00d1de7c48b",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "You can also take a picture of yourself right now and send it here. This will help other people to understand your situation.",
+  "intent": "default-intent-25",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Skip",
+    "text_with_variables": "Skip",
+    "is_next_message_linked": false,
+    "next_message": "5f3fdc30f41ee0b522e7c48f",
+    "text_key": "2386bb40-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "2386bb40",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fdc30f41ee0b522e7c48f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T19:51:37.094Z",
+  "created_at": "2020-08-21T14:37:36.762Z",
+  "is_left_side": true,
+  "text": "Could you send us a video or voice note of you coughing? This will help us to understand your situation and provide you with better information.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_linked_messages": [
+   "5f402376f41ee062cde7ff21"
+  ],
+  "prev_message": "5f3fdc30f41ee04963e7c48e",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Could you send us a video or voice note of you coughing? This will help us to understand your situation and provide you with better information.",
+  "intent": "default-intent-26",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Skip",
+    "text_with_variables": "Skip",
+    "is_next_message_linked": false,
+    "next_message": "5f402376f41ee0e589e7ff1f",
+    "text_key": "d91bd03c-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "d91bd03c",
+  "commands": [
+
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
+ },
+ {
+  "id": "5f3fdc30f41ee013bae7c488",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-26T22:48:12.947Z",
+  "created_at": "2020-08-21T14:37:36.761Z",
+  "is_left_side": true,
+  "text": "Can you send us your location so we can track potential spread or warn you about cases close to you?",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3fdc30f41ee000d2e7c487",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "Can you send us your location so we can track potential spread or warn you about cases close to you?\n\n#remind=TestEntry;in=0.002",
+  "intent": "default-intent-24",
+  "free_answer": false,
+  "buttons": [
+   {
+    "text": "Skip",
+    "text_with_variables": "Skip",
+    "is_next_message_linked": false,
+    "next_message": "5f3fdc30f41ee0dd4de7c48c",
+    "text_key": "2a1c1eb9-btn0",
+    "commands": [
+
+    ],
+    "command_args": {
+
+    }
+   }
+  ],
+  "multichoice": false,
+  "text_key": "2a1c1eb9",
+  "commands": [
+   "remind"
+  ],
+  "expected_type": "text",
+  "command_args": {
+   "remind": "TestEntry",
+   "in": "0.002"
+  }
+ },
+ {
+  "id": "5f402376f41ee0e589e7ff1f",
+  "conversation_id": "5f3f9b64f41ee03879e79ba1",
+  "persona_id": "5f3f9b64f41ee07805e79ba3",
+  "updated_at": "2020-08-21T20:03:22.393Z",
+  "created_at": "2020-08-21T19:41:42.852Z",
+  "is_left_side": true,
+  "text": "We have forwarded your request and come back to you as soon as possible.",
+  "type": "text",
+  "next_message": null,
+  "is_next_message_linked": false,
+  "prev_message": "5f3fdc30f41ee04d77e7c490",
+  "show_time": 1500,
+  "is_first_message": false,
+  "deleted": false,
+  "text_with_variables": "We have forwarded your request and come back to you as soon as possible.\n\n#end",
+  "intent": "default-intent-27",
+  "free_answer": false,
   "buttons": [
 
   ],
   "multichoice": false,
-  "text_key": "19812570",
-  "command": null
+  "text_key": "1380ef25",
+  "commands": [
+   "end"
+  ],
+  "expected_type": "text",
+  "command_args": {
+
+  }
  }
 ]
