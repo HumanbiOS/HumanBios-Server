@@ -16,6 +16,7 @@ class CheckbackState(base_state.BaseState):
             user['states'].append('QAState')
             # Send next question
             self.set_data(context, get_msg(self.bots_data, user['context']['remind_q']))
+            user['answers']['qa']['curr_q'] = user['context']['remind_q'] 
             self.send(user, context)
             del user['context']['remind_q']
             return base_state.OK

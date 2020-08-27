@@ -4,11 +4,13 @@ humanbiosbots.com {
 
 server.humanbiosbots.com {
     handle /archive/* {
-        root * archive
+        uri strip_prefix /archive
+        root /archive/* archive
         file_server
     }
     handle /static/* {
-        root * static
+        uri strip_prefix /static
+        root /static/* static
         file_server
     }
     handle {
