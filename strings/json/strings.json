@@ -16,6 +16,7 @@
   "confirm_language": "We detected language: {}.\nAre you willing to continue?",
   "failed_language": "Sorry, I couldn't extract supported language from \"{}\".\nPlease try again.",
   "skip_lang": "Choose default language ({})",
+  "ai_notice": "Now you have an opportunity to talk to AI model. If you want to stop or it became annoying press \"Stop\" button.\n\nYou can start typing right here:",
 
   "location": "Can you send us your location so we can track potential spread or warn you about cases close to you?",
   "location_button": "Send location",

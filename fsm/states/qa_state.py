@@ -156,7 +156,14 @@ class QAState(base_state.BaseState):
             self.set_data(context, next_q)
             self.send(user, context)
             return base_state.GO_TO_STATE("ENDState")
-
+        # Handle special command #ai
+        elif "ai" in next_q['commands']:
+            # if message was just an #ai
+            if not next_q['text']:
+                return base_state.GO_TO_STATE("AIState")
+            self.set_data(context, next_q)
+            self.send(user, context)
+            return base_state.GO_TO_STATE("AIState")
 
         # Record the answer
         if save_answer:
