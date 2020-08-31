@@ -44,14 +44,19 @@
   "found": "Hey, we found a doctor who can help you. You are now connected to them - simply send your messages in here.",
   "end_convo": "The conversation was ended.",
   "forbidden": "Sorry, I can't handle that type of messages!",
+
   "broadcast_target_help": "Please send the user group conditions for the broadcast, seperated by newlines. The format is as follows:\n- Putting a '!' at the start will invert your condition.\n- First enter the question ID.\n- Then, enter the operand - it can be one of =, <, >, { or }.\n- { means the right hand expression contains the left hand expression, whereas } means the right hand expression is a member of the left hand expression.\n- Finally, write the value you want to match to - it can be either plaintext of a Python literal, such as a list or integer.",
   "broadcast_targets_error": "The user group conditions could not be parsed. Please try again.",
   "broadcast_get_message": "Thank you, now please send the message that will be sent to these users",
   "broadcast_complete": "Broadcast complete. Message will be sent to {} users",
+
   "your_identity": "Your identity hash is {}.",
+
   "edit_permissions_identity": "Please enter the identity you want to edit permissions for",
   "edit_permissions_action": "Please select the permission level to grant:",
   "default": "Default",
   "broadcaster": "Broadcaster",
-  "admin": "Admin"
+  "admin": "Admin",
+
+  "webtoken": "Click here to sign in (expires in 15 seconds): {}"
 }

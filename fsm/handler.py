@@ -184,6 +184,8 @@ class Handler(object):
                 return Handler.GET_ID_STATE
             if text.startswith("/edit_permissions"):
                 return Handler.EDIT_PERMISSIONS_STATE
+            if text.startswith("/webtoken"):
+                return "WebAdminLoginState"
 
 
     # get last state of the user

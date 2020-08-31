@@ -1,12 +1,14 @@
-from settings import ROOT_PATH, Config, N_CORES, DEBUG, BOTSOCIETY_API_KEY
+from settings import ROOT_PATH, Config, N_CORES, DEBUG, BOTSOCIETY_API_KEY, SERVER_HOST, SERVER_PORT, OWNER_HASH
 from server_logic.utils.parser import parse_api, save_file
-from sanic.response import json, html, redirect, empty
+from sanic.response import json, html, redirect, empty, stream
 from server_logic.definitions import Context
 from fsm.handler import Worker
 from settings import tokens
 from sanic import Sanic
 from db import Database
+from db.enums import PermissionLevel
 import urllib.parse
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 import aiohttp
 import logging
@@ -18,7 +20,13 @@ import os
 import re
 
 
-app = Sanic(name="HumanBios-Server")
+env = Environment(
+    loader=FileSystemLoader('web/templates'),
+    autoescape=select_autoescape(['html', 'xml']),
+    auto_reload=DEBUG,
+    enable_async=True
+)
+app = Sanic(name="HumanBios-Server", strict_slashes=True)
 handler = Worker()
 handler.start()
 database = Database()
@@ -174,5 +182,68 @@ async def worker_setup(request):
     return json({"status": 200, "name": name, "token": new_token})
 
 
+# admin pages
+
+
+app.static("/static", "web/static")
+
+
+@app.get("/admin")
+async def admin_root(request):
+    if request.ctx.identity:
+        _, permission_level = await request.ctx.ensure_user()
+        return jinja2("admin/index.html", owner=(permission_level >= PermissionLevel.ADMIN))
+    else:
+        return jinja2("admin/login.html")
+
+@app.get("/admin/auth/<token>")
+async def admin_auth_token(request, token):
+    if request.ctx.identity:
+        return redirect("/admin")
+    identity = await database.check_webtoken(token)
+    session = await database.create_websession(identity)
+    response = redirect("/admin")
+    response.cookies["session"] = session
+    response.cookies["session"]["max-age"] = 24 * 60 * 60
+    response.cookies["session"]["secure"] = not DEBUG
+    response.cookies["session"]["httponly"] = True
+    response.cookies["session"]["path"] = "/admin"
+    return response
+
+# middlewares & utils
+
+def jinja2(template_name, **ctx):
+    async def render_stream(response):
+        stream_data = env.get_template(template_name).generate_async(**ctx)
+        async for chunk in stream_data:
+            await response.write(chunk)
+    return stream(render_stream, content_type="text/html")
+
+@app.middleware('response')
+async def prevent_xss(request, response):
+    response.headers["x-xss-protection"] = "1; mode=block"
+
+
+@app.middleware('request')
+async def admin_auth_middleware(request):
+    handler, args, kwargs, uri, name = app.router.get(request)
+    if name.startswith("admin_"):
+        print(request.cookies.get("session", None))
+        request.ctx.identity = await database.check_websession(request.cookies.get("session", None))
+        print(request.ctx.identity)
+
+        async def get_user():
+            request.ctx.user = await database.get_user(request.ctx.identity)
+            if request.ctx.identity == OWNER_HASH:
+                request.ctx.permission_level = float('inf')
+            else:
+                request.ctx.permission_level = request.ctx.user["permission_level"]
+                if request.ctx.permission_level > PermissionLevel.MAX:
+                    request.ctx.permission_level = PermissionLevel.DEFAULT
+            return request.ctx.user, request.ctx.permission_level
+
+        request.ctx.ensure_user = get_user
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=DEBUG, access_log=DEBUG, workers=N_CORES)
+    app.run(host=SERVER_HOST, port=SERVER_PORT, debug=DEBUG, access_log=DEBUG, workers=N_CORES)

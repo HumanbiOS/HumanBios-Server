@@ -1,16 +1,12 @@
-from .settings import CLOUD_TRANSLATION_API_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
-from .settings import SERVER_SECURITY_TOKEN
-from .settings import BOTSOCIETY_API_KEY
-from .settings import DATABASE_URL
-from .settings import ROOT_PATH
-from .settings import RASA_URL
-from .settings import N_CORES
-from .settings import AI_URL
-from .settings import DEBUG
-from collections import namedtuple
+from . import settings
+from .settings import *
+from collections import namedtuple as namedtuple
 import logging
 import os
+
+
 Config = namedtuple("Config", ['token', 'url'])
+
 
 tokens = {
     'server': SERVER_SECURITY_TOKEN,
@@ -18,9 +14,7 @@ tokens = {
     'tests_dummy_bot': Config('TEST_BOT_1111', 'http://dummy_url'),
 }
 
-__all__ = ['tokens', 'ROOT_PATH', 'CLOUD_TRANSLATION_API_KEY', 'Config', 'N_CORES', 'DEBUG',
-           'DATABASE_URL', 'RASA_URL', 'AWS_SECRET_ACCESS_KEY', 'AWS_ACCESS_KEY_ID',
-           'BOTSOCIETY_API_KEY', 'AI_URL']
+__all__ = settings.__all__.copy() + ["Config", "tokens"]
 
 
 # Logging
