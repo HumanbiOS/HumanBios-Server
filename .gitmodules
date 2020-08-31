@@ -1,0 +1,6 @@
+[submodule "strings/qa_module"]
+	path = strings/qa_module
+	url = https://github.com/HumanbiOS/QA-module
+[submodule "rasa"]
+	path = rasa
+	url = https://github.com/HumanbiOS/rasa

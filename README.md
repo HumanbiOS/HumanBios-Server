@@ -23,7 +23,7 @@ $ git submodule update --init --recursive
 ```
 $ cp .env.example .env  
 ```
-**Fill `.env`**  
+**Fill `.env`**, but don't set an OWNER_HASH yet (unless you already know what your hash is)
 #### Build container
 ```
 $ docker build -t humanbios-server .
@@ -43,6 +43,11 @@ $ docker-compose up -d
 $ cd ../..
 $ docker-compose up -d
 ```
+
+#### Configure permissions
+1. Send `/id` to the frontend interface you are using
+2. Put the resulting identity hash into the OWNER_HASH line of .env
+3. Stop all frontends, restart the server and start all frontends.
 
 ## Development (Not Dokerized)
 #### Get code
@@ -96,6 +101,11 @@ start app
 ```
 $ python server.py
 ```
+
+#### Configure permissions
+1. Send `/id` to the frontend interface you are using
+2. Put the resulting identity hash into the OWNER_HASH line of .env
+3. Stop all frontends, restart the server and start all frontends.
 
 ## Update
 #### Update submodules

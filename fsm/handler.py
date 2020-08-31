@@ -1,5 +1,6 @@
 from db import Database, User, BroadcastMessage, Session
 from datetime import timedelta, datetime
+from db.enums import PermissionLevel
 from settings import settings, tokens
 import fsm.states as states
 from db import ServiceTypes
@@ -49,10 +50,13 @@ class Worker(threading.Thread):
 
 class Handler(object):
     STATES_HISTORY_LENGTH = 10
+    START_STATE = "StartState"
+    BLOGGING_STATE = "BloggingState"
+    BROADCASTING_STATE = "BroadcastingState"
+    GET_ID_STATE = "GetIdState"
+    EDIT_PERMISSIONS_STATE = "EditPermissionsState"
 
     def __init__(self):
-        self.__start_state = "StartState"
-        self.__blogging_state = "BloggingState"
         self.__states = {}
         self.__register_states(*states.collect())
         self.db = Database()
@@ -71,7 +75,7 @@ class Handler(object):
         if state is None:
             # If non-existing state - send user to the start state
             # @Important: Don't forget to initialize the state
-            return False, self.__states[self.__start_state](), self.__start_state
+            return False, self.__states[Handler.START_STATE](), Handler.START_STATE
         # @Important: Don't forget to initialize the state
         return True, state(), name
 
@@ -95,7 +99,8 @@ class Handler(object):
                         "conversation_id": None,
                         "answers": dict(),
                         "files": dict(),
-                        "states": list(),
+                        "states": list("ENDState"),
+                        "permission_level": PermissionLevel.DEFAULT,
                         "context": dict()
                     }
             await self.db.create_user(user)
@@ -121,6 +126,10 @@ class Handler(object):
         # Getting or registering user
         user = await self.__get_or_register_user(context)
         # Finding last registered state of the user
+        special_state = await self.get_command_state(user, context)
+        if special_state:
+            await self.__forward_to_state(context, user, special_state)
+            return
         last_state = await self.last_state(user, context)
         # Looking for state, creating state object
         correct_state, current_state, current_state_name = self.__get_state(last_state)
@@ -132,22 +141,34 @@ class Handler(object):
         ret_code = await current_state.wrapped_process(context, user)
         await self.__handle_ret_code(context, user, ret_code)
 
-    # get last state of the user
-    async def last_state(self, user: User, context):
-        # special cases #
+
+    async def get_command_state(self, user: User, context):
         text = context['request']['message']['text']
         if isinstance(text, str) or hasattr(text, "value"):
             text = str(text)
             if text.startswith("/start"):
                 context['request']['message']['text'] = text[6:].strip()
-                return self.__start_state
+                return Handler.START_STATE
             if text.startswith("/postme"):
-                return self.__blogging_state
-        # defaults to __start_state
+                return Handler.BLOGGING_STATE
+            if text.startswith("/broadcast"):
+                return Handler.BROADCASTING_STATE
+            if text.startswith("/id"):
+                return Handler.GET_ID_STATE
+            if text.startswith("/edit_permissions"):
+                return Handler.EDIT_PERMISSIONS_STATE
+
+
+    # get last state of the user
+    async def last_state(self, user: User, context):
+        # defaults to START_STATE
         try:
             return user['states'][-1]
         except IndexError:
-            return self.__start_state
+            pass
+        except KeyError:
+            user['states'] = ["ENDState"]
+        return Handler.START_STATE
 
     async def __handle_ret_code(self, context, user, ret_code):
         # Handle return codes
@@ -161,16 +182,17 @@ class Handler(object):
     async def __forward_to_state(self, context, user, next_state):
         last_state = await self.last_state(user, context)
         correct_state, current_state, current_state_name = self.__get_state(next_state)
-        # Registering new last state
-        user['states'].append(current_state_name)
-        # @Important: maybe we don't need to commit, since we will commit after?
-        # await self.db.commit_user(user)
-        # Check if history is too long
-        if len(user['states']) > self.STATES_HISTORY_LENGTH:
-            # @Important: maybe we don't need to update, since we will commit after?
-            # await self.db.update_user(user['identity'], "REMOVE states[0]", None, user)
-            user['states'].pop(0)
-        if current_state.has_entry:
+        if current_state_name != last_state:
+            # Registering new last state
+            user['states'].append(current_state_name)
+            # @Important: maybe we don't need to commit, since we will commit after?
+            # await self.db.commit_user(user)
+            # Check if history is too long
+            if len(user['states']) > self.STATES_HISTORY_LENGTH:
+                # @Important: maybe we don't need to update, since we will commit after?
+                # await self.db.update_user(user['identity'], "REMOVE states[0]", None, user)
+                user['states'].pop(0)
+        if current_state.has_entry and current_state_name != last_state:
             ret_code = await current_state.wrapped_entry(context, user)
         else:
             ret_code = await current_state.wrapped_process(context, user)

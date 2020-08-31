@@ -9,6 +9,7 @@ from db import Database
 import secrets
 import sanic
 import os
+import urllib.parse
 
 
 app = Sanic(name="HumanBios-Server")
@@ -95,7 +96,10 @@ async def worker_setup(request):
     # Pull url from request
     url = data.get("url", "")
     # Generate new token and pull url
-    if not url:
+    try:
+        if not urllib.parse.urlparse(url).scheme != "https" and not DEBUG:
+            return json({"status": 403, "message": "url must use https in production"})
+    except ValueError:
         return json({"status": 403, "message": "url invalid"})
     # check if session is already saved, then this means the frontend was restarted and we can ignore this
     # TODO: Support a changed key where the instance can say that it didnt restart,

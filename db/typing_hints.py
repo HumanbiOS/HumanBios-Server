@@ -1,5 +1,5 @@
 from typing import TypedDict, Dict, Union, List, Optional, Any
-from .enums import AccountType
+from .enums import AccountType, PermissionLevel
 
 
 class User(TypedDict):
@@ -19,6 +19,7 @@ class User(TypedDict):
     files: Dict[str, Union[str, list]]
     states: List[str]
     type: AccountType
+    permission_level: PermissionLevel
     context: Dict[str, Any]
 
 
