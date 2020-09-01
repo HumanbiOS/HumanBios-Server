@@ -94,7 +94,7 @@ class QAState(base_state.BaseState):
                     # Sent another message
                     self.send(user, context)
                     return base_state.OK
-                # Here we use the False check so we dont have a leading comma
+                # Here we use the Falsey check so we dont have a leading comma
                 if not user['answers']['qa']['qa_results'][curr_q["id"]]:
                     user['answers']['qa']['qa_results'][curr_q["id"]] = raw_answer
                 # Storing the answers in a string, separated with a comma
@@ -102,7 +102,7 @@ class QAState(base_state.BaseState):
                     user['answers']['qa']['qa_results'][curr_q["id"]] += f", {raw_answer}"
                 # Make sure to store checked keys
                 user['answers']['qa']['multichoice_cache'][curr_q['id']].append(button.key)
-                # Send special message with buttons that left
+                # Send special message with buttons that are left
                 self.set_data(context, curr_q, avoid_buttons=user['answers']['qa']['multichoice_cache'][curr_q['id']])
                 context['request']['message']['text'] = self.strings['qa_multi'].format(btn_obj['text'])
                 self.send(user, context)

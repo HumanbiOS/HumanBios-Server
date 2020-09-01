@@ -18,8 +18,8 @@ server.humanbiosbots.com {
     }
 }
 
-#websocket.humanbiosbots.com {
-#    handle /api/* {
-#        reverse_proxy humanbios-websocket:8080
-#    }
-#}
+websocket.humanbiosbots.com {
+    handle /api/* {
+        reverse_proxy humanbios-websocket:8080
+    }
+}

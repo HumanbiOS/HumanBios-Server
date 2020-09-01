@@ -12,9 +12,9 @@ w = lambda data: ujson.dumps(data, indent=4, ensure_ascii=False)
 # p = lambda data: print(w(data))
 
 # Find message by id
-def get_msg(data, id_):
+def get_msg(data, msg_id):
     for message in data:
-       if message["id"] == id_:
+       if message["id"] == msg_id:
             return message
 # Command pattern
 command = re.compile(r"(?:^|[^\\])#([^\s]+)")
@@ -37,9 +37,9 @@ def get_text(text: str) -> (str, bool, str):
             result_cmds.append(cmd.lower())
         # Add args
         tmp = cmd.split(";")
-        for _tmp in tmp:
+        for single_tmp in tmp:
             try:
-                key, value = _tmp.split("=")
+                key, value = single_tmp.split("=")
             except ValueError:
                 continue
             args[key] = value
@@ -49,7 +49,7 @@ def get_text(text: str) -> (str, bool, str):
 # Parse Botsociety api data
 def parse_api(raw_data):
     # Result list
-    _tmp = list()
+    result = list()
     # Merging all actions in one loop
     for msg in raw_data:
         # [DEBUG]
@@ -68,26 +68,26 @@ def parse_api(raw_data):
         # Message that is not quickreply
         if msg['type'] != "quickreplies":
             # Parse text
-            text, _case, cmds, args = get_text(msg['text'])
+            text, _, cmds, args = get_text(msg['text'])
             msg['text'] = text
             msg['commands'] = cmds
             msg['command_args'] = args
 
-            _next = get_msg(raw_data, msg['next_message'])
+            next_msg = get_msg(raw_data, msg['next_message'])
 
-            if _next:
+            if next_msg:
                 # Handle quickreplies as buttons
-                if _next['type'] == "quickreplies":
+                if next_msg['type'] == "quickreplies":
                     msg['next_message'] = None
-                    msg['buttons'] = _next['quickreplies']
+                    msg['buttons'] = next_msg['quickreplies']
                 # Handle user message as free answer
-                elif _next['is_left_side'] is False:
-                    msg['next_message'] = _next['next_message']
+                elif next_msg['is_left_side'] is False:
+                    msg['next_message'] = next_msg['next_message']
                     msg['free_answer'] = True
                     
-                    if _next['type'] == "image":
+                    if next_msg['type'] == "image":
                         msg['expected_type'] = "image"
-                    elif _next['type'] == "location":
+                    elif next_msg['type'] == "location":
                         msg['expected_type'] = "location"
         
         # Make sure to keep these statements separate
@@ -102,17 +102,17 @@ def parse_api(raw_data):
         # Make sure to add keys for all buttons and do the parsing
         for index, btn in enumerate(msg['buttons']):
             btn['text_key'] = f"{msg['text_key']}-btn{index}"
-            text, _case, cmds, args = get_text(btn['text'])
+            text, _, cmds, args = get_text(btn['text'])
             btn['text'] = text
             btn['commands'] = cmds
             btn['command_args'] = args
 
         # Add messages if didn't skip
-        _tmp.append(msg)
+        result.append(msg)
     # [DEBUG]
     # logging.info(w(_tmp))
     logging.info("Parsed new flow from Botsociety.")
-    return _tmp
+    return result
 
 
 # Save data to the file / reduce history
@@ -136,8 +136,8 @@ def save_file(data, path=None):
         os.rename(latest_fp, os.path.join(path, f"{ct}.json"))
 
     # Write new data "latest"
-    with open(os.path.join(path, "latest.json"), "w") as file_:
-        file_.write(w(data))
+    with open(os.path.join(path, "latest.json"), "w") as file_latest:
+        file_latest.write(w(data))
 
     # If more than 5 files -> remove oldest
     history = os.listdir(path)
@@ -155,20 +155,20 @@ def save_file(data, path=None):
 # Get first message; next message; next message by the answer
 def get_next(items, curr_id=None, answer=None):
     if curr_id is None:
-        for _msg in items:
-            if _msg['is_first_message']:
-                return _msg
+        for msg in items:
+            if msg['is_first_message']:
+                return msg
         else:
             raise ValueError("Somehow we dont have first message?")
     else:
-        curr_ = get_msg(items, curr_id)
+        curr = get_msg(items, curr_id)
 
-    if curr_['buttons']:
+    if curr['buttons']:
         # find button
-        for btn in curr_['buttons']:
+        for btn in curr['buttons']:
             if answer == btn['text_key']:
-                id_ = btn.get("next_message")
-                if id_ is not None:
-                    return get_msg(items, id_)
-    elif curr_:
-        return get_msg(items, curr_["next_message"])
+                next_id = btn.get("next_message")
+                if next_id is not None:
+                    return get_msg(items, next_id)
+    elif curr:
+        return get_msg(items, curr["next_message"])

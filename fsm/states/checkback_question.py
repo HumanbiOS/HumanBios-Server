@@ -10,8 +10,10 @@ class CheckbackState(base_state.BaseState):
     # @Important: This state purposely resets whole dialog
     async def process(self, context: Context, user: User, db):
         raw_answer = context['request']['message']['text']
-        button = self.parse_button(raw_answer, verify=["yes", "no"])
+        button = self.parse_button(raw_answer, verify=("yes", "no"))
         if button == 'yes':
+            # TODO: fix? we append to states instead of base_state.GO_TO_STATE, because we need new kind of interaction
+            #       We don't want to go to the QAState right now, but when user responds with their message -> they should be processed by QAState
             # Send first message and set the state back to the QAState
             user['states'].append('QAState')
             # Send next question

@@ -89,7 +89,7 @@ class BaseState(object):
     db = Database()
     nlu = NLUWorker(tr)
     STRINGS = Strings(tr, db)
-    # Data buffer that is assigned to when the class is initiated, stores refference to the relevant Botsociety Data 
+    # Data buffer that is assigned to when the class is initialized, stores reference to the relevant Botsociety Data 
     bots_data = None
 
     # Media path and folder
@@ -124,7 +124,7 @@ class BaseState(object):
     async def wrapped_entry(self, context: Context, user: User):
         """
         This method is executed when user enters State for the first time, if `has_entry` variable is set to True.
-        It is a wrapper for state-author-modified `entry` method.
+        It is a wrapper for state-author-controlled `entry` method.
 
         Args:
             context (Context): holds parsed and verified request, with auto-filled default values
@@ -198,7 +198,7 @@ class BaseState(object):
         The method handles each interaction when user enters your state
 
         Args:
-        context (Context): language code of the user's country
+        context (Context): context object of the request
         user (User): user object from database corresponding to the user who sent message
         db (Database): database wrapper object
         """
@@ -210,7 +210,7 @@ class BaseState(object):
         The method handles each interaction with user (except first interaction)
 
         Args:
-        context (Context): language code of the user's country
+        context (Context): context object of the request
         user (User): user object from database corresponding to the user who sent message
         db (Database): database wrapper object
         """
@@ -225,7 +225,7 @@ class BaseState(object):
         Args:
             raw_text (str): just user's message
             truncated (bool): option to look for not full matches (only first `n` characters). Defaults to False.
-            truncation_size (int): amount of sequential characters to match. Defaults to 20.
+            truncation_size (int): number of sequential characters to match. Defaults to 20.
             verify (list, set): a custom object that is used instead of global language object (e.g. you want a match from the list of specific buttons)
         """
         btn = Button(raw_text)

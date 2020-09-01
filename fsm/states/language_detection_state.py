@@ -37,7 +37,7 @@ class LanguageDetectionState(base_state.BaseState):
 
         # Send language message
         context['request']['message']['text'] = self.strings["choose_lang"]
-        # Add confrimation button to skip
+        # Add confirmation button to skip
         if context['request']['user']['lang_code']:
             user['context']['lang_code'] = context['request']['user']['lang_code']
             context['request']['has_buttons'] = True

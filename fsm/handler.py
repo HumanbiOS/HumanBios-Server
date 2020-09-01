@@ -52,10 +52,11 @@ class Worker(threading.Thread):
     def run(self):
         asyncio.run(self._run_processes())
 
+    # @Important: async infinite task to propagate update on webhook to handler's thread
     async def autoload_file(self):
         while True:
             try:
-                _ = self.random_q.get(timeout=1.0/250)
+                self.random_q.get(timeout=1.0/250)
                 self.handler.load_bots_file()
             except queue.Empty:
                 await asyncio.sleep(1)
