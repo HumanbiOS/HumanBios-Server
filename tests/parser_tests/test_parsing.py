@@ -18,7 +18,7 @@ def test_data_1():
 
 
 def test_all_messages_have_new_keywords(test_data_1):
-    new_things = ["buttons", "free_answer", "multichoice", "text_key", "command"]
+    new_things = ["buttons", "free_answer", "multichoice", "text_key", "commands"]
 
     # Check if all things added
     for msg in test_data_1.parsed:
