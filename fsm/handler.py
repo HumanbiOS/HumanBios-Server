@@ -205,6 +205,9 @@ class Handler(object):
             return
         elif isinstance(ret_code, states.GO_TO_STATE):
             await self.__forward_to_state(context, user, ret_code.next_state)
+        elif ret_code == states.END:
+            user['states'].pop()
+            await self.__forward_to_state(context, user, user['states'][-1])
 
     async def __forward_to_state(self, context, user, next_state):
         last_state = await self.last_state(user, context)

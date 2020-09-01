@@ -1,4 +1,4 @@
-from fsm.states.base_state import BaseState, OK, GO_TO_STATE
+from fsm.states.base_state import BaseState, OK, GO_TO_STATE, END
 import importlib
 import inspect
 import os

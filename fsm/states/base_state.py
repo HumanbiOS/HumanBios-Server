@@ -38,6 +38,17 @@ class GO_TO_STATE:
         return self.status == other.status
 
 
+class END:
+    status = 3
+    commit = True
+
+    def __init__(self, commit=True):
+        self.commit = commit
+
+    def __eq__(self, other):
+        return self.status == other.status
+
+
 class PromisesEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, TextPromise):
