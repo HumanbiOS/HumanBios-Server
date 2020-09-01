@@ -12,8 +12,7 @@ class BroadcastingState(base_state.BaseState):
     async def entry(self, context: Context, user: User, db):
         # Make sure to save previous state with fallback for the index error
         if user["permission_level"] < PermissionLevel.BROADCASTER:
-            return base_state.GO_TO_STATE(user["states"][-2])
-        user["context"]["broadcasting_state"] = user["states"][-2]
+            return base_state.END
 
         # Explain usage of broadcast targets
         context['request']['message']['text'] = self.strings["broadcast_target_help"]
@@ -30,7 +29,8 @@ class BroadcastingState(base_state.BaseState):
     async def process(self, context: Context, user: User, db):
         if user["permission_level"] < PermissionLevel.BROADCASTER:
             # again, just in case the fsm has a bug letting people bypass entry
-            return base_state.GO_TO_STATE("ENDState")
+            #     p.s. no, it doesn't
+            return base_state.END
 
         text = context["request"]["message"]["text"]
         # Note: we don't need "truncated" here because facebook only truncates *buttons* (quickreplies) 20+ characters long
@@ -39,9 +39,7 @@ class BroadcastingState(base_state.BaseState):
         if button == "stop":
             return base_state.GO_TO_STATE("ENDState")
         elif button == "back":
-            prev = user["context"]["broadcasting_state"]
-            del user["context"]["broadcasting_state"]
-            return base_state.GO_TO_STATE(prev)
+            return base_state.END
 
         elif user["context"]["broadcasting"] == "target":
             if text == "*":
@@ -80,9 +78,7 @@ class BroadcastingState(base_state.BaseState):
             # Not strictly needed, but it's still a good idea to remove state specific data
             del user["context"]["broadcasting"]
             del user["context"]["broadcasting_to"]
-            prev = user["context"]["broadcasting_state"]
-            del user["context"]["broadcasting_state"]
-            return base_state.GO_TO_STATE(prev)
+            return base_state.END
 
     def _parse_targets(self, message):
         if message is None:

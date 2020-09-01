@@ -9,4 +9,5 @@ class GetIdState(base_state.BaseState):
     async def process(self, context: Context, user: User, db):
         context['request']['message']['text'] = self.strings["your_identity"].format(user['identity'])
         self.send(user, context)
-        return base_state.GO_TO_STATE(user['states'][-2])
+        return base_state.END
+        #return base_state.GO_TO_STATE(user['states'][-2])

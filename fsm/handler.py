@@ -207,9 +207,9 @@ class Handler(object):
             await self.__forward_to_state(context, user, ret_code.next_state)
         elif ret_code == states.END:
             user['states'].pop()
-            await self.__forward_to_state(context, user, user['states'][-1])
+            await self.__forward_to_state(context, user, user['states'][-1], back=True)
 
-    async def __forward_to_state(self, context, user, next_state):
+    async def __forward_to_state(self, context, user, next_state, back=False):
         last_state = await self.last_state(user, context)
         correct_state, current_state, current_state_name = self.__get_state(next_state)
         if current_state_name != last_state:
@@ -222,7 +222,7 @@ class Handler(object):
                 # @Important: maybe we don't need to update, since we will commit after?
                 # await self.db.update_user(user['identity'], "REMOVE states[0]", None, user)
                 user['states'].pop(0)
-        if current_state.has_entry and current_state_name != last_state:
+        if current_state.has_entry and (current_state_name != last_state or back):
             ret_code = await current_state.wrapped_entry(context, user)
         else:
             ret_code = await current_state.wrapped_process(context, user)
