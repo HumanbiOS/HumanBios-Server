@@ -17,6 +17,7 @@ import os
 class OK:
     status = 1
     commit = True
+    process_next = True
 
     def __init__(self, commit=True):
         self.commit = commit
@@ -27,11 +28,14 @@ class OK:
 
 class GO_TO_STATE:
     status = 2
+    process_next = True
     next_state = None
     commit = True
+    entry = True
 
-    def __init__(self, next_state, commit=True):
+    def __init__(self, next_state, skip_entry=False, commit=True):
         self.next_state = next_state
+        self.entry = not skip_entry
         self.commit = commit
 
     def __eq__(self, other):
@@ -41,8 +45,17 @@ class GO_TO_STATE:
 class END:
     status = 3
     commit = True
+    entry = True
+    process_next = True
 
-    def __init__(self, commit=True):
+    def __init__(self, process_next=True, skip_entry=False, commit=True):
+        """
+        Args:
+            process_next (bool): set to False to silently wait for user response
+            skip_entry (bool): decide whether or not to skip `entry` handler and go straight into `process`
+        """
+        self.process_next = process_next
+        self.entry = not skip_entry
         self.commit = commit
 
     def __eq__(self, other):

@@ -201,15 +201,15 @@ class Handler(object):
         # Handle return codes
         #    If status is OK -> Done
         #    If status is GO_TO_STATE -> proceed executing wanted state
-        if ret_code == states.OK:
+        if not ret_code.process_next:
             return
         elif isinstance(ret_code, states.GO_TO_STATE):
-            await self.__forward_to_state(context, user, ret_code.next_state)
+            await self.__forward_to_state(context, user, ret_code.next_state, entry=ret_code.entry)
         elif ret_code == states.END:
             user['states'].pop()
-            await self.__forward_to_state(context, user, user['states'][-1], back=True)
+            await self.__forward_to_state(context, user, user['states'][-1], entry=ret_code.entry)
 
-    async def __forward_to_state(self, context, user, next_state, back=False):
+    async def __forward_to_state(self, context, user, next_state, entry=False):
         last_state = await self.last_state(user, context)
         correct_state, current_state, current_state_name = self.__get_state(next_state)
         if current_state_name != last_state:
@@ -222,7 +222,7 @@ class Handler(object):
                 # @Important: maybe we don't need to update, since we will commit after?
                 # await self.db.update_user(user['identity'], "REMOVE states[0]", None, user)
                 user['states'].pop(0)
-        if current_state.has_entry and (current_state_name != last_state or back):
+        if current_state.has_entry and (current_state_name != last_state or entry):
             ret_code = await current_state.wrapped_entry(context, user)
         else:
             ret_code = await current_state.wrapped_process(context, user)
