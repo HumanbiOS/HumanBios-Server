@@ -5,10 +5,10 @@ services:
     container_name: humanbios-server
     image: humanbios-server
     restart: unless-stopped
-    ports:
-    - 8282:8282
     volumes:
     - ./log:/app/log
+    - ./archive:/usr/src/app/archive
+    - ./models:/usr/src/app/models
 
 networks:
   default:

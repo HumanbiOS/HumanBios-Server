@@ -263,4 +263,70 @@ def create_db(dynamodb):
             raise e
     statuses.append(status)
 
-    print("Table statuses:\n    ", '\n    '.join(str(x) for x in statuses))
+    status = TableStatus('WebCredentials')
+    try:
+        table = dynamodb.create_table(
+            TableName='WebCredentials',
+            KeySchema=[
+                {
+                    'AttributeName': 'username',
+                    'KeyType': 'HASH'
+                },
+                {
+                    'AttributeName': 'token',
+                    'KeyType': 'RANGE'
+                }
+            ],
+            AttributeDefinitions=[
+                {
+                    'AttributeName': 'username',
+                    'AttributeType': 'S'
+                },
+                {
+                    'AttributeName': 'token',
+                    'AttributeType': 'S'
+                }
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 1,
+                'WriteCapacityUnits': 1
+            }
+        )
+        status.status = table.table_status
+    except ClientError as e:
+        if e.response['Error']['Code'] == "ResourceInUseException":
+            status.status = "ALREADY EXISTS"
+        else:
+            raise e
+    statuses.append(status)
+
+    status = TableStatus('WebSessions')
+    try:
+        table = dynamodb.create_table(
+            TableName='WebSessions',
+            KeySchema=[
+                {
+                    'AttributeName': 'session_id',
+                    'KeyType': 'HASH'
+                }
+            ],
+            AttributeDefinitions=[
+                {
+                    'AttributeName': 'session_id',
+                    'AttributeType': 'S'
+                }
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 1,
+                'WriteCapacityUnits': 1
+            }
+        )
+        status.status = table.table_status
+    except ClientError as e:
+        if e.response['Error']['Code'] == "ResourceInUseException":
+            status.status = "ALREADY EXISTS"
+        else:
+            raise e
+    statuses.append(status)
+
+    print("Table statuses:\n   ", '\n    '.join(str(x) for x in statuses))

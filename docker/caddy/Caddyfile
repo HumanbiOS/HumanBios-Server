@@ -1,14 +1,25 @@
 humanbiosbots.com {
-    reverse_proxy humanbios-fb:8443
+    reverse_proxy humanbios-fb:8080
 }
 
 server.humanbiosbots.com {
-    handle /api/* {
-        reverse_proxy humanbios-server:8282
-    }
-    handle {
-        root * files
+    handle /archive/* {
+        uri strip_prefix /archive
+        root /archive/* archive
         file_server
     }
+    handle /static/* {
+        uri strip_prefix /static
+        root /static/* static
+        file_server
+    }
+    handle {
+        reverse_proxy humanbios-server:8080
+    }
+}
 
+websocket.humanbiosbots.com {
+    handle /api/* {
+        reverse_proxy humanbios-websocket:8080
+    }
 }

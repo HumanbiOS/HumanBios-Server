@@ -15,6 +15,9 @@
   "app_confirm_language": "We have detected that your preffered language is {}. Do you wish to continue with it?\n(To change press \"No\")", 
   "confirm_language": "We detected language: {}.\nAre you willing to continue?",
   "failed_language": "Sorry, I couldn't extract supported language from \"{}\".\nPlease try again.",
+  "skip_lang": "Choose default language ({})",
+  "ai_notice": "Now you have an opportunity to talk to AI model. If you want to stop or it became annoying press \"Stop\" button.\n\nYou can start typing right here:",
+
   "location": "Can you send us your location so we can track potential spread or warn you about cases close to you?",
   "location_button": "Send location",
   "story": "Hello! Thank you for contacting Human Bios. Before we ask you a couple of self-diagnosis questions, take the opportunity to tell us your story, if you would like to.\n\nWhere are you right now? How are your friends, your family? Do you feel safe?",
@@ -32,7 +35,7 @@
   "coughing_wrong_answer": "We sorry, this is not a supported media type. Please try sending a voice note/message or a video recording.",
   "qa_intro": "This bot will ask a series of question now which will help understanding your case. First one: ",
   "qa_error": "I am sorry, you need to press one of the buttons.",
-  "qa_multi": "Since this is a multiple choice question, please press more options if you want to. Otherwise, press {0}",
+  "qa_multi": "Since this is a multiple choice question, please press more options if you want to. Otherwise, press {}",
   "qa_finish": "Finish",
   "forward_doctor": "We have forwarded your request and come back to you as soon as possible.",
   "forward_shrink": "We have forwarded your request and come back to you as soon as possible.",

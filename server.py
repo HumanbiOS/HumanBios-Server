@@ -1,23 +1,55 @@
-from settings import ROOT_PATH, Config, N_CORES, DEBUG
+from settings import ROOT_PATH, Config, N_CORES, DEBUG, BOTSOCIETY_API_KEY
+from server_logic.utils.parser import parse_api, save_file
+from sanic.response import json, html, redirect, empty
 from server_logic.definitions import Context
-from sanic.response import json
 from fsm.handler import Worker
 from settings import tokens
 from sanic import Sanic
 from db import Database
-#import googlemaps
-import secrets
-import sanic
-import os
 import urllib.parse
+import datetime
+import aiohttp
+import logging
+import secrets
+import ujson
+import sanic
+import uuid
+import os
+import re
 
 
 app = Sanic(name="HumanBios-Server")
 handler = Worker()
 handler.start()
 database = Database()
-#gclient = googlemaps.Client(key=LOAD_KEY)
 
+
+@app.route('/api/webhooks/botsociety')
+async def botsociety_webhook(request):
+    args = request.args
+    # Get user id and conv id for get request to the Botsociety API
+    user_id = args["user_id"][0]
+    conv_id = args["conversation_id"][0]
+    # Data needed to use API
+    v = "2.0"
+    api_url = f"https://app.botsociety.io/apisociety/{v}/npm"
+    url = f"{api_url}/conversations/{conv_id}"
+    h = {
+        "Content-Type": "application/json",
+        "api_key_public": BOTSOCIETY_API_KEY,
+        "user_id": user_id
+    }
+    # Get data from api
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=h) as resp:
+            data = await resp.json()
+    # [DEBUG]
+    # logging.info(data)
+    # Parse/Save data
+    save_file(parse_api(data['messages']))
+    # Make sure to reload in-memory data / cache
+    handler.reload_file()
+    return empty()
 
 @app.route('/api/process_message', methods=['POST'])
 async def data_handler(request):
@@ -26,7 +58,11 @@ async def data_handler(request):
     if data is None:
         return json({"status": 403, "message": "expected json"})
 
-    token = tokens.get(data.get('via_instance'), '')
+    instance = data.get("via_instance")
+    if not instance or instance not in tokens:
+        return json({"status": 403, "message": "instance is not registered"})
+
+    token = tokens.get(instance, '')
     # the session might be saved in the database
     if not token:
         potential_session = await database.get_session(data.get('via_instance'))
@@ -37,7 +73,7 @@ async def data_handler(request):
     # `not token` to avoid `'' == ''`
     if not token or not (data.get("security_token", '') == token.token):
         # add custom 403 error code
-        return json({"status": 403, "message": "token unauthorized"})
+        return json({"status": 403, "message": "token unauthorized (bad token)"})
 
     # build into context
     result = Context.from_json(data)
@@ -53,32 +89,6 @@ async def data_handler(request):
     handler.process(ctx)
     # return context
     return json(ctx.ok)
-
-
-@app.route('/api/webhooks/rasa/webhook/get_facility', methods=['POST'])
-async def rasa_get_facility(request):
-    # @Important: rasa sends location and facility type
-    # @Important: we search in database -> Found: return relevant facility address.
-    # @Important:                       -> Not Found: request facility from google places -> \
-    # @Important:                                respond with address <- save to database <- /
-    # TODO: Introduce database.
-    # TODO: Introduce google places api
-    data = request.json
-    location: str = data.get('location')
-    facility_type: str = data.get('facility_type')
-    facility_id: str = data.get('facility_id')
-    amount: int = data.get('amount')
-    # Facility type is one of the values
-    if facility_id:
-        address = "<this is a dummy server response of the cached facility>"
-        resp = {"facility_address_0": address}
-    elif amount:
-        resp = {}
-        for i in range(amount):
-            resp[f"facility_address_{i}"] = "<this is a dummy server response address>"
-    else:
-        resp = {"facility_address_0": "<this is a dummy server response address>"}
-    return json(resp)
 
 
 @app.route('/api/setup', methods=['POST'])
@@ -129,17 +139,17 @@ async def worker_setup(request):
     broadcast_entity = data.get("broadcast")
     # For "No entity" value must be None
     if broadcast_entity == "":
-        return json({"status": 403, "message": "broadcast entity is invalid"})
+        return json({"status": 403, "message": "broadcast entity is invalid (for \'no entity\' value must be None)"})
     # Pull psychological room from the request
     psychological_room = data.get("psychological_room")
     # For "No entity" value must be None
     if psychological_room == "":
-        return json({"status": 403, "message": "psychological room is invalid"})
+        return json({"status": 403, "message": "psychological room is invalid (for \'no entity\' value must be None)"})
     # Pull doctor room from the request
     doctor_room = data.get("doctor_room")
     # For "No entity" value must be None
     if doctor_room == "":
-        return json({"status": 403, "message": "doctor room is invalid"})
+        return json({"status": 403, "message": "doctor room is invalid (for \'no entity\' value must be None)"})
 
     # Generate new token and name for the instance
     # @Important: 40 bytes token is > 50 characters long
@@ -165,4 +175,4 @@ async def worker_setup(request):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8282, debug=DEBUG, access_log=DEBUG, workers=N_CORES)
+    app.run(host='0.0.0.0', port=8080, debug=DEBUG, access_log=DEBUG, workers=N_CORES)

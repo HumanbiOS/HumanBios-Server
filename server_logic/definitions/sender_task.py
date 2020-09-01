@@ -1,4 +1,4 @@
 from collections import namedtuple
 
-SenderTask = namedtuple("SenderTask", ["user", "context"])
+SenderTask = namedtuple("SenderTask", ["service", "context"])
 ExecutionTask = namedtuple("ExecutionTask", ["func", "args", "kwargs"])

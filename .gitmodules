@@ -4,3 +4,6 @@
 [submodule "rasa"]
 	path = rasa
 	url = https://github.com/HumanbiOS/rasa
+[submodule "gpt2bot"]
+	path = gpt2bot
+	url = https://github.com/HumanbiOS/gpt2bot

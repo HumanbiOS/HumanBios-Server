@@ -28,8 +28,11 @@ rasa/model/models/*.tar.gz
 # Local test
 test.py
 
+models/
 media/
 translated_strings/
 db-build/
+
+archive/
 
 restart_with_rebuild.sh

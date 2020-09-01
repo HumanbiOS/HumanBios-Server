@@ -1,10 +1,11 @@
 from .settings import CLOUD_TRANSLATION_API_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 from .settings import SERVER_SECURITY_TOKEN
+from .settings import BOTSOCIETY_API_KEY
 from .settings import DATABASE_URL
-from .settings import STATIC_URL
 from .settings import ROOT_PATH
 from .settings import RASA_URL
 from .settings import N_CORES
+from .settings import AI_URL
 from .settings import DEBUG
 from collections import namedtuple
 import logging
@@ -18,7 +19,8 @@ tokens = {
 }
 
 __all__ = ['tokens', 'ROOT_PATH', 'CLOUD_TRANSLATION_API_KEY', 'Config', 'N_CORES', 'DEBUG',
-           'DATABASE_URL', 'RASA_URL', 'AWS_SECRET_ACCESS_KEY', 'AWS_ACCESS_KEY_ID']
+           'DATABASE_URL', 'RASA_URL', 'AWS_SECRET_ACCESS_KEY', 'AWS_ACCESS_KEY_ID',
+           'BOTSOCIETY_API_KEY', 'AI_URL']
 
 
 # Logging
