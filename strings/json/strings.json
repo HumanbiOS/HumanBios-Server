@@ -12,7 +12,7 @@
   "checkback": "Hey, are you willing to take another quiz to track how your situation changed?",
   "choose_lang": "Please choose the language you want to me to talk in to you from now on. You can enter:\n1) Language (native/name/code)\n2) Country (native/name)\n3) Emoji (flag)",
   "choose_lang_country_based": "Your country seems to support several languages, please choose one.",
-  "app_confirm_language": "We have detected that your preffered language is {}. Do you wish to continue with it?\n(To change press \"No\")", 
+  "app_confirm_language": "We have detected that your preferred language is {}. Do you wish to continue with it?\n(To change press \"No\")", 
   "confirm_language": "We detected language: {}.\nAre you willing to continue?",
   "failed_language": "Sorry, I couldn't extract supported language from \"{}\".\nPlease try again.",
   "skip_lang": "Choose default language ({})",
