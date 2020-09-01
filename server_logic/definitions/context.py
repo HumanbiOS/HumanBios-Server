@@ -65,9 +65,9 @@ class Context(Serializable):
             obj['request'] = json_ish
             # By default create user identity
             obj['request']['user']['identity'] = UserIdentity.hash(
-                                                 obj['request']['user']['user_id'],
-                                                 obj['request']['service_in']
-                                                 )
+                obj['request']['user']['user_id'],
+                obj['request']['service_in']
+            )
         else:
             obj = None
         return ValidationResult(validated, obj, error)
