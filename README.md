@@ -26,7 +26,7 @@ $ cp .env.example .env
 **Fill `.env`**, but don't set an OWNER_HASH yet (unless you already know what your hash is)
 #### Build container
 ```
-$ docker build -t humanbios-server .
+$ docker build -t humanbios-server --target main .
 ```
 #### Database
 Pull database image
