@@ -11,6 +11,7 @@ class PermissionLevel:
     DEFAULT = 0
     BROADCASTER = 1
     ADMIN = 2
+    MAX = ADMIN
 
 
 class ServiceTypes:

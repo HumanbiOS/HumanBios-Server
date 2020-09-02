@@ -21,6 +21,9 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 RASA_URL = os.environ['RASA_URL']
 BOTSOCIETY_API_KEY = os.environ['BOTSOCIETY_API_KEY']
 
+SERVER_HOST = os.environ.get("SERVER_HOST", False) or "0.0.0.0"
+SERVER_PORT = int(os.environ.get("SERVER_PORT", False) or 8080)
+
 N_CORES = int(os.environ['N_CORES'])
 try:
     DEBUG = bool(ast.literal_eval(os.environ['DEBUG']))
@@ -29,3 +32,10 @@ except (ValueError, SyntaxError) as e:
     logging.exception(f"Expected bool, got {os.environ['DEBUG']}")
 
 OWNER_HASH = os.environ.get("OWNER_HASH", None)
+
+__all__ = [
+              'ROOT_PATH', 'SERVER_SECURITY_TOKEN', 'CLOUD_TRANSLATION_API_KEY',
+              'AI_URL', 'DATABASE_URL', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
+              'RASA_URL', 'BOTSOCIETY_API_KEY', 'SERVER_HOST', 'SERVER_PORT',
+              'N_CORES', 'DEBUG', 'OWNER_HASH',
+          ]

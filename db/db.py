@@ -16,6 +16,7 @@ import boto3
 import pytz
 import uuid
 import json
+import secrets
 
 
 def custom_default(obj):
@@ -61,71 +62,72 @@ class Database:
         self.Sessions = self.dynamodb.Table('Sessions')
         self.BroadcastMessages = self.dynamodb.Table('BroadcastMessages')
         self.StringItems = self.dynamodb.Table('StringItems')
-        self.WebCredentials = self.dynamodb.Table('WebCredentials')
         self.WebSessions = self.dynamodb.Table('WebSessions')
         # Cache
         self.active_conversations = 0
         self.requested_users = set()
         self.mac = str(uuid.getnode())
         
-        self.cached_websessions = set()
+        self.cached_websessions = dict()
+        self.cached_webtokens = dict()
 
     # High level methods
 
-    async def create_creds(self, uname: str, token: str):
-        self.WebCredentials.put_item(
-            Item={
-                "username": uname,
-                "token": token
-            }
-        )
-
-    async def verify_creds(self, uname: str, token: str):
-        try:
-            response = self.WebCredentials.get_item(
-                Key={
-                    'username': uname,
-                    'token': token
-                }
-            )
-        except ClientError as e:
-            # TODO: @Important: Change all prints to logger.info or .error
-            # Print Error Message and return None
-            print(e.response['Error']['Message'])
-            return False
-        else:
-            # If not exist -> return False
-            # Anyway return just bool
-            return bool(response.get('Item'))
-
-    async def create_websession(self, token: str, new_session: str):
+    async def create_websession(self, identity: str):
+        session_id = secrets.token_urlsafe(secrets.DEFAULT_ENTROPY * 2)
         self.WebSessions.put_item(
             Item={
-                "token": token,
-                "session_id": new_session
+                "identity": identity,
+                "session_id": session_id
             }
         )
-        self.cached_websessions.add(new_session)
+        self.cached_websessions[session_id] = identity
+        return session_id
 
     async def check_websession(self, session_id: str):
         # First check cache
-        if session_id in self.cached_websessions:
-            return True
+        try:
+            return self.cached_websessions[session_id]
+        except KeyError:
+            pass
         try:
             response = self.WebSessions.get_item(
                 Key={
                     'session_id': session_id
+                },
+                ProjectionExpression="#idtt",
+                ExpressionAttributeNames={
+                    "#idtt": "identity"
                 }
             )
         except ClientError as e:
             # TODO: @Important: Change all prints to logger.info or .error
             # Print Error Message and return None
             print(e.response['Error']['Message'])
-            return False
-        else:
-            # If not exist -> return False
-            # Anyway return just bool
-            return bool(response.get('Item'))
+            return None
+        try:
+            ret = response['Item']["identity"]
+        except KeyError:
+            return None
+        self.cached_websessions[session_id] = ret
+        return ret
+
+    async def create_webtoken(self, identity: str):
+        token = secrets.token_urlsafe()
+        self.cached_webtokens[token] = identity
+        print(self.cached_webtokens)
+        asyncio.get_event_loop().call_later(15, self._del_token, token)
+        return token
+
+    async def check_webtoken(self, token: str):
+        print(self.cached_webtokens)
+        return self.cached_webtokens.get(token, None)
+
+    def _del_token(self, token):
+        try:
+            del self.cached_webtokens[token]
+        except KeyError:
+            pass
 
     # User methods
     async def create_user(self, item: User):
