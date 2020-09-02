@@ -105,7 +105,6 @@ class Database:
             # Print Error Message and return None
             print(e.response['Error']['Message'])
             return None
-        print(response)
         try:
             ret = response['Item']["identity"]
         except KeyError:

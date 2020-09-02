@@ -228,9 +228,7 @@ async def prevent_xss(request, response):
 async def admin_auth_middleware(request):
     handler, args, kwargs, uri, name = app.router.get(request)
     if name.startswith("admin_"):
-        print(request.cookies.get("session", None))
         request.ctx.identity = await database.check_websession(request.cookies.get("session", None))
-        print(request.ctx.identity)
 
         async def get_user():
             request.ctx.user = await database.get_user(request.ctx.identity)
